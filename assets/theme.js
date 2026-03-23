@@ -277,22 +277,68 @@
      4. Variant Selector (product page)
      -------------------------------------------------------------------------- */
   var VariantSelector = {
+    variants: [],
+    selectedOptions: [],
+
     init: function () {
+      var dataEl = $('#product-variants-json');
+      if (!dataEl) return;
+
+      try { this.variants = JSON.parse(dataEl.textContent); } catch (e) { return; }
+
+      // Seed selected options from active buttons
+      $$('[data-variant-group]').forEach(function (group) {
+        var idx = parseInt(group.dataset.variantGroup, 10);
+        var activeBtn = $('.variant-btn.active', group);
+        VariantSelector.selectedOptions[idx] = activeBtn ? activeBtn.dataset.optionValue : null;
+      });
+
       on(document, 'click', function (e) {
         var btn = e.target.closest('.variant-btn');
         if (!btn) return;
         var group = btn.closest('[data-variant-group]');
-        if (group) {
-          $$('.variant-btn', group).forEach(function (b) { b.classList.remove('active'); });
-          btn.classList.add('active');
-        }
-        VariantSelector.updatePrice();
+        if (!group) return;
+
+        $$('.variant-btn', group).forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+
+        var idx = parseInt(group.dataset.variantGroup, 10);
+        VariantSelector.selectedOptions[idx] = btn.dataset.optionValue;
+        VariantSelector.updateVariant();
       });
     },
 
-    updatePrice: function () {
-      // Shopify variant price update — handled server-side for simplicity.
-      // Extend here if using JS-based variant selection.
+    updateVariant: function () {
+      var selected = this.selectedOptions;
+      var match = this.variants.find(function (v) {
+        return v.options.every(function (opt, i) {
+          return selected[i] === undefined || selected[i] === opt;
+        });
+      });
+      if (!match) return;
+
+      // Update hidden variant ID
+      var idInput = $('#variant-id-input');
+      if (idInput) idInput.value = match.id;
+
+      // Update price display
+      var priceEl = $('#product-price');
+      if (priceEl) {
+        if (match.compare_at_price > match.price) {
+          priceEl.innerHTML =
+            '<span class="sale">$' + (match.price / 100).toFixed(2) + '</span>' +
+            '<span class="compare-at">$' + (match.compare_at_price / 100).toFixed(2) + '</span>';
+        } else {
+          priceEl.innerHTML = '<span>$' + (match.price / 100).toFixed(2) + '</span>';
+        }
+      }
+
+      // Update add to cart button availability
+      var addBtn = $('[data-add-to-cart-form] [type="submit"]');
+      if (addBtn) {
+        addBtn.disabled = !match.available;
+        addBtn.textContent = match.available ? 'Add to Arsenal' : 'Sold Out';
+      }
     }
   };
 
