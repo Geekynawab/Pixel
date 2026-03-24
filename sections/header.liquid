@@ -18,16 +18,30 @@
       <!-- Primary navigation (desktop) -->
       <nav class="nav-primary" aria-label="Primary navigation">
 
-        <div class="nav-item">
-          <a href="/collections/keychains" class="nav-link">Keychains</a>
+        <!-- Shop by Type dropdown -->
+        <div class="nav-item nav-item--dropdown">
+          <button class="nav-link nav-dropdown-toggle" aria-expanded="false">
+            Shop by Type
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown">
+            <a href="/collections/keychains" class="nav-dropdown__item">🗝️ Keychains</a>
+            <a href="/collections/toys" class="nav-dropdown__item">🧸 Toys</a>
+            <a href="/collections/mousepads" class="nav-dropdown__item">🖱️ Mousepads</a>
+          </div>
         </div>
 
-        <div class="nav-item">
-          <a href="/collections/toys" class="nav-link">Toys</a>
-        </div>
-
-        <div class="nav-item">
-          <a href="/collections/mousepads" class="nav-link">Mousepads</a>
+        <!-- Collections dropdown -->
+        <div class="nav-item nav-item--dropdown">
+          <button class="nav-link nav-dropdown-toggle" aria-expanded="false">
+            Collections
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown">
+            <a href="/collections/prime" class="nav-dropdown__item">⚡ Prime Collection</a>
+            <a href="/collections/reaver" class="nav-dropdown__item">💀 Reaver Collection</a>
+            <a href="/collections/ion" class="nav-dropdown__item">🔵 Ion Collection</a>
+          </div>
         </div>
 
       </nav>
@@ -77,15 +91,25 @@
   <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
 
     <div class="mobile-nav__item">
-      <a href="/collections/keychains" class="mobile-nav__link">Keychains</a>
+      <button class="mobile-nav__link mobile-nav__toggle" data-mobile-toggle="mobile-sub-types">
+        Shop by Type <span class="toggle-icon">+</span>
+      </button>
+      <div class="mobile-nav__sub" id="mobile-sub-types">
+        <a href="/collections/keychains" class="mobile-nav__sub-link">🗝️ Keychains</a>
+        <a href="/collections/toys" class="mobile-nav__sub-link">🧸 Toys</a>
+        <a href="/collections/mousepads" class="mobile-nav__sub-link">🖱️ Mousepads</a>
+      </div>
     </div>
 
     <div class="mobile-nav__item">
-      <a href="/collections/toys" class="mobile-nav__link">Toys</a>
-    </div>
-
-    <div class="mobile-nav__item">
-      <a href="/collections/mousepads" class="mobile-nav__link">Mousepads</a>
+      <button class="mobile-nav__link mobile-nav__toggle" data-mobile-toggle="mobile-sub-collections">
+        Collections <span class="toggle-icon">+</span>
+      </button>
+      <div class="mobile-nav__sub" id="mobile-sub-collections">
+        <a href="/collections/prime" class="mobile-nav__sub-link">⚡ Prime Collection</a>
+        <a href="/collections/reaver" class="mobile-nav__sub-link">💀 Reaver Collection</a>
+        <a href="/collections/ion" class="mobile-nav__sub-link">🔵 Ion Collection</a>
+      </div>
     </div>
 
   </nav>
