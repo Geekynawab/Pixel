@@ -1679,6 +1679,10 @@ h4 { font-size: 1.125rem; }
   top: 70px;
 }
 
+.product-layout__info {
+  padding-top: 1.5rem;
+}
+
 .product-gallery {
   display: grid;
   grid-template-columns: 76px 1fr;
