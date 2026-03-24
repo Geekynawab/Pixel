@@ -568,7 +568,7 @@
   };
 
   /* --------------------------------------------------------------------------
-     12. Wishlist
+     12. Wishlist — handled by Wishlist Hero app
      -------------------------------------------------------------------------- */
   var Wishlist = {
     key: 'valo-wishlist-v2',
@@ -958,7 +958,6 @@
     CollectionsMenu.init();
     HeroSlideshow.init();
     SearchOverlay.init();
-    Wishlist.init();
     ProductSlideshow.init();
     BulkSavings.init();
     StickyATC.init();
