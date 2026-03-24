@@ -36,19 +36,19 @@
       <div class="header-actions">
 
         <!-- Search -->
-        <form class="search-form" action="/search" method="get" role="search">
-          <input
-            type="search"
-            name="q"
-            placeholder="{{ 'general.search.placeholder' | t }}"
-            aria-label="{{ 'general.search.placeholder' | t }}"
-            value="{{ search.terms | escape }}">
-          <button type="submit" aria-label="{{ 'general.search.submit' | t }}">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-          </button>
-        </form>
+        <button class="header-icon" id="search-toggle" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+
+        <!-- Wishlist -->
+        <button class="header-icon" id="wishlist-icon" aria-label="Wishlist">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span class="wishlist-count" id="wishlist-count" aria-live="polite"></span>
+        </button>
 
         <!-- Account -->
         <a href="/account" class="header-icon" aria-label="Account">

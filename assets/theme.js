@@ -460,7 +460,99 @@
   }
 
   /* --------------------------------------------------------------------------
-     11. Hero Slideshow
+     11. Search Overlay
+     -------------------------------------------------------------------------- */
+  var SearchOverlay = {
+    overlay: null,
+    input: null,
+
+    init: function () {
+      this.overlay = $('#search-overlay');
+      this.input   = $('#search-overlay-input');
+      if (!this.overlay) return;
+
+      on($('#search-toggle'), 'click', function () { SearchOverlay.open(); });
+      on($('#search-close'),  'click', function () { SearchOverlay.close(); });
+      on(this.overlay, 'click', function (e) {
+        if (e.target === SearchOverlay.overlay) SearchOverlay.close();
+      });
+      on(document, 'keydown', function (e) {
+        if (e.key === 'Escape') SearchOverlay.close();
+      });
+    },
+
+    open: function () {
+      this.overlay.classList.add('open');
+      this.overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      if (this.input) setTimeout(function () { SearchOverlay.input.focus(); }, 50);
+    },
+
+    close: function () {
+      this.overlay.classList.remove('open');
+      this.overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+  };
+
+  /* --------------------------------------------------------------------------
+     12. Wishlist
+     -------------------------------------------------------------------------- */
+  var Wishlist = {
+    key: 'valo-wishlist',
+
+    get: function () {
+      try { return JSON.parse(localStorage.getItem(this.key)) || []; } catch (e) { return []; }
+    },
+
+    save: function (ids) {
+      localStorage.setItem(this.key, JSON.stringify(ids));
+    },
+
+    toggle: function (id) {
+      var ids = this.get();
+      var idx = ids.indexOf(id);
+      if (idx === -1) { ids.push(id); } else { ids.splice(idx, 1); }
+      this.save(ids);
+      this.updateUI();
+      return idx === -1;
+    },
+
+    has: function (id) {
+      return this.get().indexOf(id) !== -1;
+    },
+
+    updateUI: function () {
+      var ids   = this.get();
+      var badge = $('#wishlist-count');
+      if (badge) badge.textContent = ids.length > 0 ? ids.length : '';
+
+      $$('[data-wishlist]').forEach(function (btn) {
+        var id = parseInt(btn.dataset.wishlist, 10);
+        btn.classList.toggle('active', ids.indexOf(id) !== -1);
+      });
+    },
+
+    init: function () {
+      this.updateUI();
+
+      on(document, 'click', function (e) {
+        var btn = e.target.closest('[data-wishlist]');
+        if (!btn) return;
+        e.preventDefault();
+        var id = parseInt(btn.dataset.wishlist, 10);
+        Wishlist.toggle(id);
+      });
+
+      on($('#wishlist-icon'), 'click', function (e) {
+        if (e.target.closest('[data-wishlist]')) return;
+        window.location.href = '/wishlist';
+      });
+    }
+  };
+
+  /* --------------------------------------------------------------------------
+     13. Hero Slideshow
      -------------------------------------------------------------------------- */
   var HeroSlideshow = {
     slides: [],
@@ -534,6 +626,8 @@
     MobileNav.init();
     CollectionsMenu.init();
     HeroSlideshow.init();
+    SearchOverlay.init();
+    Wishlist.init();
     VariantSelector.init();
     ProductGallery.init();
     AnnouncementBar.init();
