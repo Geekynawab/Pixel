@@ -559,7 +559,10 @@
     slides: [],
     current: 0,
     interval: null,
-    slidesPerView: 3,
+
+    perView: function () {
+      return window.innerWidth <= 1024 ? 1 : 3;
+    },
 
     init: function () {
       this.track  = $('#product-slideshow-track');
@@ -571,7 +574,6 @@
       on($('#slideshow-prev'), 'click', function () { self.move(-1); });
       on($('#slideshow-next'), 'click', function () { self.move(1); });
 
-      // Pause on hover
       on(this.track.parentElement, 'mouseenter', function () { self.stop(); });
       on(this.track.parentElement, 'mouseleave', function () { self.start(); });
 
@@ -579,16 +581,13 @@
     },
 
     move: function (dir) {
-      var maxIndex = this.slides.length - this.slidesPerView;
-      this.current = Math.max(0, Math.min(this.current + dir, maxIndex));
-      var offset = -(this.current * (100 / this.slidesPerView));
+      var spv = this.perView();
+      var maxIndex = this.slides.length - spv;
+      this.current = this.current + dir;
+      if (this.current > maxIndex) this.current = 0;
+      if (this.current < 0) this.current = maxIndex;
+      var offset = -(this.current * (100 / spv));
       this.track.style.transform = 'translateX(' + offset + '%)';
-
-      // Loop back
-      if (this.current >= this.slides.length - this.slidesPerView) {
-        var self = this;
-        setTimeout(function () { self.current = 0; self.track.style.transition = 'none'; self.track.style.transform = 'translateX(0)'; setTimeout(function () { self.track.style.transition = ''; }, 50); }, 520);
-      }
     },
 
     start: function () {

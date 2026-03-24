@@ -1953,6 +1953,28 @@ h4 { font-size: 1.125rem; }
     border-right: 1px solid var(--color-border);
     border-bottom: none;
   }
+
+  /* Header: tighten icons */
+  .header-actions { gap: 0.4rem; }
+  .header-icon { width: 30px; height: 30px; }
+  .collections-menu-btn__label { display: none; }
+
+  /* Product page mobile */
+  .product-info__title { font-size: 1.4rem; }
+  .product-info__title-row { flex-wrap: wrap; }
+  .product-info__add-to-cart { flex-wrap: wrap; }
+  .product-info__add-to-cart .btn { width: 100%; }
+  .product-info__qty { width: 100%; justify-content: center; }
+
+  /* Slideshow mobile */
+  .product-slideshow__slide img { height: 260px; }
+
+  /* Breadcrumb */
+  .breadcrumb { font-size: 0.7rem; flex-wrap: wrap; }
+
+  /* Hero text */
+  .hero-banner__title { font-size: 2rem; }
+  .hero-banner__subtitle { font-size: 0.85rem; }
 }
 
 @media (max-width: 480px) {
@@ -1960,4 +1982,16 @@ h4 { font-size: 1.125rem; }
   .hero-banner__actions { flex-direction: column; align-items: flex-start; }
   .category-nav__grid { gap: 0.35rem; }
   .category-nav__item { min-width: 80px; padding: 0.75rem; }
+
+  /* Hide profile icon on very small screens — save space */
+  .header-actions a.header-icon[aria-label="Account"] { display: none; }
+
+  /* Search overlay input size */
+  .search-overlay__input { font-size: 1.1rem; }
+
+  /* Product related horizontal scroll */
+  .product-related__item { min-width: 150px; }
+
+  /* Collection showcase — single column on tiny screens */
+  .showcase-block .product-grid { grid-template-columns: 1fr 1fr; }
 }
