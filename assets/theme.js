@@ -845,6 +845,20 @@
     stickyScrollOffset();
     initCollectionSort();
     lazyImages();
+
+    // Hide floating chat btn until user scrolls near the bottom
+    (function () {
+      var chatBtn = document.querySelector('.floating-help__btn');
+      if (!chatBtn) return;
+      chatBtn.style.transition = 'opacity 0.3s ease';
+      chatBtn.style.opacity = '0';
+      chatBtn.style.pointerEvents = 'none';
+      window.addEventListener('scroll', function () {
+        var nearBottom = window.scrollY + window.innerHeight >= document.body.scrollHeight - 200;
+        chatBtn.style.opacity = nearBottom ? '1' : '0';
+        chatBtn.style.pointerEvents = nearBottom ? 'auto' : 'none';
+      }, { passive: true });
+    }());
   });
 
 })();
