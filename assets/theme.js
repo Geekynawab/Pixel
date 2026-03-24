@@ -623,14 +623,23 @@
     interval: null,
     animating: false,
 
+    slideWidth: function () {
+      var slide = this.track.children[0];
+      var gap = parseFloat(window.getComputedStyle(this.track).gap) || 16;
+      return slide.offsetWidth + gap;
+    },
+
     init: function () {
       this.track = $('#product-slideshow-track');
       if (!this.track) return;
       this.total = this.track.children.length;
       if (this.total < 2) return;
 
-      // Clone first slide at end for seamless loop
-      this.track.appendChild(this.track.children[0].cloneNode(true));
+      // Clone first 3 slides at end for seamless multi-per-view loop
+      var cloneCount = Math.min(3, this.total);
+      for (var i = 0; i < cloneCount; i++) {
+        this.track.appendChild(this.track.children[i].cloneNode(true));
+      }
 
       var self = this;
       on($('#slideshow-prev'), 'click', function () { self.move(-1); });
@@ -647,21 +656,22 @@
       self.animating = true;
       self.current += dir;
 
+      var sw = self.slideWidth();
       self.track.style.transition = 'transform 1s ease';
-      self.track.style.transform = 'translateX(-' + (self.current * 100) + '%)';
+      self.track.style.transform = 'translateX(-' + (self.current * sw) + 'px)';
 
       setTimeout(function () {
-        // After sliding to clone of first, snap back to real first silently
-        if (self.current === self.total) {
+        // After sliding into clones, snap back to matching real slide
+        if (self.current >= self.total) {
           self.track.style.transition = 'none';
-          self.current = 0;
-          self.track.style.transform = 'translateX(0%)';
+          self.current = self.current - self.total;
+          self.track.style.transform = 'translateX(-' + (self.current * self.slideWidth()) + 'px)';
         }
-        // After sliding before first, snap to last
+        // Before first slide, snap to last real slide
         if (self.current < 0) {
           self.track.style.transition = 'none';
           self.current = self.total - 1;
-          self.track.style.transform = 'translateX(-' + (self.current * 100) + '%)';
+          self.track.style.transform = 'translateX(-' + (self.current * self.slideWidth()) + 'px)';
         }
         self.animating = false;
       }, 1050);
