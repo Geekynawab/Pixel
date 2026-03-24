@@ -12,6 +12,10 @@
         "cta2_link": ""
       }
     },
+    "trust-bar": {
+      "type": "trust-bar",
+      "settings": {}
+    },
     "collections-showcase": {
       "type": "collections-showcase",
       "settings": {}
@@ -28,6 +32,7 @@
   },
   "order": [
     "hero-banner",
+    "trust-bar",
     "collections-showcase",
     "newsletter"
   ]

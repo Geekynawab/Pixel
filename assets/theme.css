@@ -819,6 +819,80 @@ h4 { font-size: 1.125rem; }
 .product-card__wishlist.active svg { fill: var(--color-accent); }
 
 /* --------------------------------------------------------------------------
+   Trust Bar
+   -------------------------------------------------------------------------- */
+.trust-bar {
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: 2.5rem 0;
+  background: var(--color-bg-secondary);
+}
+.trust-bar__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+.trust-bar__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  padding: 0 1rem;
+}
+.trust-bar__item + .trust-bar__item {
+  border-left: 1px solid var(--color-border);
+}
+.trust-bar__icon {
+  color: var(--color-text-primary);
+  opacity: 0.85;
+}
+.trust-bar__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.02em;
+}
+.trust-bar__text {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: 220px;
+}
+
+@media (max-width: 768px) {
+  .trust-bar__grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .trust-bar__item + .trust-bar__item { border-left: none; border-top: 1px solid var(--color-border); padding-top: 1.5rem; }
+}
+
+/* --------------------------------------------------------------------------
+   In Stock Badge
+   -------------------------------------------------------------------------- */
+.in-stock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-success);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.85rem;
+}
+.in-stock-badge__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-success);
+  flex-shrink: 0;
+  animation: pulse-green 2s ease-in-out infinite;
+}
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 196, 140, 0.5); }
+  50% { opacity: 0.6; box-shadow: 0 0 0 5px rgba(0, 196, 140, 0); }
+}
+
+/* --------------------------------------------------------------------------
    Collections Showcase
    -------------------------------------------------------------------------- */
 .collections-showcase { padding-top: 3rem; }

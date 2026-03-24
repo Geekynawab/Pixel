@@ -128,6 +128,14 @@
           {%- endfor -%}
         {%- endunless -%}
 
+        <!-- In stock indicator -->
+        {%- if current_variant.available -%}
+          <div class="in-stock-badge">
+            <span class="in-stock-badge__dot"></span>
+            In Stock
+          </div>
+        {%- endif -%}
+
         <!-- Add to cart -->
         {% form 'product', product, data-add-to-cart-form: '' %}
           <input type="hidden" name="id" id="variant-id-input" value="{{ current_variant.id }}">
