@@ -1,0 +1,46 @@
+{%- assign col_handles = 'keychains,toys,mousepads' | split: ',' -%}
+
+<section class="collections-showcase section">
+  <div class="container">
+
+    {%- for handle in col_handles -%}
+      {%- assign col = collections[handle] -%}
+      {%- if col != blank -%}
+        <div class="showcase-block">
+
+          <div class="showcase-block__header">
+            <div class="showcase-block__title-wrap">
+              <span class="section-subtitle">{{ col.description | default: 'Browse' }}</span>
+              <h2 class="section-title">{{ col.title }}</h2>
+              <span class="section-divider"></span>
+            </div>
+            <a href="{{ col.url }}" class="btn btn--outline btn--sm">View All →</a>
+          </div>
+
+          {%- if col.products_count > 0 -%}
+            <div class="product-grid">
+              {%- for product in col.products limit: 4 -%}
+                {% render 'product-card', product: product %}
+              {%- endfor -%}
+            </div>
+          {%- else -%}
+            <p class="showcase-block__empty">No products yet — check back soon.</p>
+          {%- endif -%}
+
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collections Showcase",
+  "tag": "section",
+  "settings": [],
+  "presets": [
+    { "name": "Collections Showcase" }
+  ]
+}
+{% endschema %}

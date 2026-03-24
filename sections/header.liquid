@@ -2,30 +2,6 @@
   <div class="container">
     <div class="header-inner">
 
-      <!-- Collections menu button (left) -->
-      <button class="collections-menu-btn" id="collections-menu-btn" aria-expanded="false" aria-controls="collections-dropdown">
-        <span class="collections-menu-btn__bars">
-          <span></span><span></span><span></span>
-        </span>
-        <span class="collections-menu-btn__label">Collections</span>
-      </button>
-
-      <!-- Collections dropdown panel -->
-      <div class="collections-dropdown" id="collections-dropdown" aria-hidden="true">
-        <a href="/collections/keychains" class="collections-dropdown__item">
-          <span class="collections-dropdown__icon">🗝️</span>
-          <span>Keychains</span>
-        </a>
-        <a href="/collections/toys" class="collections-dropdown__item">
-          <span class="collections-dropdown__icon">🧸</span>
-          <span>Toys</span>
-        </a>
-        <a href="/collections/mousepads" class="collections-dropdown__item">
-          <span class="collections-dropdown__icon">🖱️</span>
-          <span>Mousepads</span>
-        </a>
-      </div>
-
       <!-- Logo -->
       <a href="/" class="site-logo" aria-label="{{ shop.name }} — Home">
         {%- if settings.logo != blank -%}

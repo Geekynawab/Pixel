@@ -714,6 +714,31 @@ h4 { font-size: 1.125rem; }
 }
 
 /* --------------------------------------------------------------------------
+   Collections Showcase
+   -------------------------------------------------------------------------- */
+.collections-showcase { padding-top: 3rem; }
+
+.showcase-block {
+  margin-bottom: 4rem;
+}
+.showcase-block:last-child { margin-bottom: 0; }
+
+.showcase-block__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+.showcase-block__title-wrap { flex: 1; }
+
+.showcase-block__empty {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  padding: 2rem 0;
+}
+
+/* --------------------------------------------------------------------------
    9. Section Headers
    -------------------------------------------------------------------------- */
 .section-header {

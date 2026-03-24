@@ -12,32 +12,9 @@
         "cta2_link": ""
       }
     },
-    "collection-categories": {
-      "type": "collection-categories",
-      "blocks": {
-        "cat-1": {
-          "type": "category",
-          "settings": { "icon": "🗝️", "label": "Keychains", "link": "/collections/keychains" }
-        },
-        "cat-2": {
-          "type": "category",
-          "settings": { "icon": "🧸", "label": "Toys", "link": "/collections/toys" }
-        },
-        "cat-3": {
-          "type": "category",
-          "settings": { "icon": "🖱️", "label": "Mousepads", "link": "/collections/mousepads" }
-        }
-      },
-      "block_order": ["cat-1","cat-2","cat-3"]
-    },
-    "featured-collection": {
-      "type": "featured-collection",
-      "settings": {
-        "eyebrow": "Top Picks",
-        "heading": "Featured Skins",
-        "products_to_show": 8,
-        "show_view_all": true
-      }
+    "collections-showcase": {
+      "type": "collections-showcase",
+      "settings": {}
     },
     "newsletter": {
       "type": "newsletter",
@@ -51,8 +28,7 @@
   },
   "order": [
     "hero-banner",
-    "collection-categories",
-    "featured-collection",
+    "collections-showcase",
     "newsletter"
   ]
 }
