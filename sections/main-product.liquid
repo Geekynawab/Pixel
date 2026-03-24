@@ -100,8 +100,8 @@
         </div>
 
         <!-- Bulk savings -->
-        {%- assign price_2 = current_variant.price | times: 0.9 | ceil -%}
-        {%- assign price_3 = current_variant.price | times: 0.85 | ceil -%}
+        {%- assign price_2 = current_variant.price | times: 0.85 | ceil -%}
+        {%- assign price_3 = current_variant.price | times: 0.75 | ceil -%}
         <div class="bulk-savings" id="bulk-savings"
           data-price-1="{{ current_variant.price }}"
           data-price-2="{{ price_2 }}"
@@ -114,11 +114,11 @@
             </button>
             <button class="bulk-tier" data-qty="2" type="button">
               <span class="bulk-tier__qty">Buy 2</span>
-              <span class="bulk-tier__price">{{ price_2 | money }}/ea <em>–10%</em></span>
+              <span class="bulk-tier__price">{{ price_2 | money }}/ea <em>–15%</em></span>
             </button>
             <button class="bulk-tier" data-qty="3" type="button">
               <span class="bulk-tier__qty">Buy 3</span>
-              <span class="bulk-tier__price">{{ price_3 | money }}/ea <em>–15%</em></span>
+              <span class="bulk-tier__price">{{ price_3 | money }}/ea <em>–25%</em></span>
             </button>
           </div>
         </div>
