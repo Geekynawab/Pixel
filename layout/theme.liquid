@@ -38,8 +38,8 @@
       {{ 'accessibility.skip_to_text' | t }}
     </a>
 
-    {%- sections 'announcement-bar' -%}
-    {%- sections 'header' -%}
+    {%- section 'announcement-bar' -%}
+    {%- section 'header' -%}
 
     {%- unless template.name == 'index' -%}
     <div class="global-breadcrumb">
@@ -87,7 +87,7 @@
       {{ content_for_layout }}
     </main>
 
-    {%- sections 'footer' -%}
+    {%- section 'footer' -%}
 
     <!-- Cart Drawer -->
     <div id="cart-drawer-overlay" class="cart-drawer__overlay" aria-hidden="true"></div>
