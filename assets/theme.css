@@ -732,8 +732,11 @@ h4 { font-size: 1.125rem; }
 .mobile-nav__sub a {
   display: block;
   padding: 0.45rem 1.25rem 0.45rem 2rem;
-  font-size: 0.8rem;
-  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
   border-left: 2px solid transparent;
   transition: color var(--transition-fast), border-color var(--transition-fast);
 }
