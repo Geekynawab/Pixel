@@ -463,12 +463,58 @@
   }
 
   /* --------------------------------------------------------------------------
+     11. Collections Menu Dropdown
+     -------------------------------------------------------------------------- */
+  var CollectionsMenu = {
+    btn: null,
+    dropdown: null,
+
+    init: function () {
+      this.btn      = $('#collections-menu-btn');
+      this.dropdown = $('#collections-dropdown');
+      if (!this.btn) return;
+
+      on(this.btn, 'click', function (e) {
+        e.stopPropagation();
+        CollectionsMenu.toggle();
+      });
+
+      // Close when clicking outside
+      on(document, 'click', function (e) {
+        if (!CollectionsMenu.btn.contains(e.target)) {
+          CollectionsMenu.close();
+        }
+      });
+
+      // Close on Escape
+      on(document, 'keydown', function (e) {
+        if (e.key === 'Escape') CollectionsMenu.close();
+      });
+    },
+
+    toggle: function () {
+      var isOpen = this.btn.classList.toggle('open');
+      this.dropdown.classList.toggle('open', isOpen);
+      this.btn.setAttribute('aria-expanded', isOpen);
+      this.dropdown.setAttribute('aria-hidden', !isOpen);
+    },
+
+    close: function () {
+      this.btn.classList.remove('open');
+      this.dropdown.classList.remove('open');
+      this.btn.setAttribute('aria-expanded', 'false');
+      this.dropdown.setAttribute('aria-hidden', 'true');
+    }
+  };
+
+  /* --------------------------------------------------------------------------
      Boot
      -------------------------------------------------------------------------- */
   document.addEventListener('DOMContentLoaded', function () {
     CartDrawer.init();
     AddToCart.init();
     MobileNav.init();
+    CollectionsMenu.init();
     VariantSelector.init();
     ProductGallery.init();
     AnnouncementBar.init();
