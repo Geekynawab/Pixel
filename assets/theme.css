@@ -864,7 +864,7 @@ h4 { font-size: 1.125rem; }
   font-weight: 700;
   color: var(--color-text-primary);
 }
-.product-card__price .sale { color: var(--color-accent); }
+.sale { color: var(--color-accent); }
 .compare-at {
   font-size: 0.8em;
   color: var(--color-text-muted);
