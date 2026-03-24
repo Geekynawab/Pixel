@@ -273,6 +273,24 @@
 </div>
 {%- endif -%}
 
+<!-- Recently Viewed -->
+<div class="recently-viewed" id="recently-viewed" style="display:none">
+  <div class="container">
+    <p class="recently-viewed__label">Recently Viewed</p>
+    <div class="recently-viewed__grid" id="recently-viewed-grid"></div>
+  </div>
+</div>
+
+<script>
+  window.__currentProduct = {
+    id: {{ product.id }},
+    title: {{ product.title | json }},
+    url: {{ product.url | json }},
+    price: {{ product.price }},
+    image: {{ product.featured_image | image_url: width: 400 | json }}
+  };
+</script>
+
 {% schema %}
 {
   "name": "Product",

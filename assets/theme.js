@@ -846,6 +846,44 @@
     initCollectionSort();
     lazyImages();
 
+    // Recently Viewed
+    (function () {
+      if (!window.__currentProduct) return;
+      var KEY = 'rv_products';
+      var current = window.__currentProduct;
+      var list = JSON.parse(localStorage.getItem(KEY) || '[]');
+
+      // Save current product (remove duplicate first, then prepend)
+      list = list.filter(function (p) { return p.id !== current.id; });
+      list.unshift(current);
+      list = list.slice(0, 9); // keep max 9 in storage
+      localStorage.setItem(KEY, JSON.stringify(list));
+
+      // Render up to 4 other products
+      var others = list.filter(function (p) { return p.id !== current.id; }).slice(0, 4);
+      if (others.length === 0) return;
+
+      var grid = document.getElementById('recently-viewed-grid');
+      var wrap = document.getElementById('recently-viewed');
+      if (!grid || !wrap) return;
+
+      others.forEach(function (p) {
+        var price = (p.price / 100).toFixed(2);
+        var card = document.createElement('a');
+        card.href = p.url;
+        card.className = 'rv-card';
+        card.innerHTML =
+          '<div class="rv-card__img">' +
+            (p.image ? '<img src="' + p.image + '" alt="' + p.title + '" loading="lazy">' : '') +
+          '</div>' +
+          '<p class="rv-card__title">' + p.title + '</p>' +
+          '<p class="rv-card__price">$' + price + '</p>';
+        grid.appendChild(card);
+      });
+
+      wrap.style.display = 'block';
+    }());
+
     // "In X carts" FOMO counter
     (function () {
       var el = document.getElementById('in-carts-count');

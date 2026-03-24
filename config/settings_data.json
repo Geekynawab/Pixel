@@ -1,5 +1,14 @@
 {
   "current": {
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "text": "New drops every week — shop the latest Valorant-inspired gear 🎯",
+          "dismissible": true
+        }
+      }
+    },
     "color_bg_primary": "#0F1923",
     "color_bg_secondary": "#1C2A38",
     "color_bg_card": "#253240",
