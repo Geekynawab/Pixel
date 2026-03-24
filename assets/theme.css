@@ -730,20 +730,28 @@ h4 { font-size: 1.125rem; }
 }
 .mobile-nav__sub.open { max-height: 300px; }
 .mobile-nav__sub a {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   padding: 0.45rem 1.25rem 0.45rem 2rem;
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-text-primary);
-  border-left: 2px solid transparent;
-  transition: color var(--transition-fast), border-color var(--transition-fast);
+  transition: color var(--transition-fast);
 }
-.mobile-nav__sub a:hover {
-  color: var(--color-accent);
-  border-color: var(--color-accent);
+.mobile-nav__sub a::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-text-primary);
+  flex-shrink: 0;
+  transition: background var(--transition-fast);
 }
+.mobile-nav__sub a:hover { color: var(--color-accent); }
+.mobile-nav__sub a:hover::before { background: var(--color-accent); }
 
 /* --------------------------------------------------------------------------
    8. Hero Banner
