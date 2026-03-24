@@ -1669,7 +1669,7 @@ h4 { font-size: 1.125rem; }
 
 .product-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr;
   gap: 4rem;
   align-items: start;
 }
@@ -1718,7 +1718,7 @@ h4 { font-size: 1.125rem; }
   overflow: hidden;
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 5;
 }
 .product-gallery__main img {
   width: 100%;
