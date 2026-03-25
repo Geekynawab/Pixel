@@ -1,0 +1,50 @@
+<div class="section">
+  <div class="container" style="max-width:480px;">
+
+    <h1 class="section-title" style="margin-bottom:2rem;">{{ 'customer.register.title' | t }}</h1>
+
+    {%- form 'create_customer' -%}
+      {%- if form.errors -%}
+        <div role="alert" style="color:var(--color-accent);font-size:0.82rem;margin-bottom:1rem;padding:0.75rem;border:1px solid var(--color-accent);background:rgba(255,70,85,0.08);">
+          {{ form.errors | default_errors }}
+        </div>
+      {%- endif -%}
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+        <div>
+          <label for="FirstName" style="display:block;font-size:0.8rem;letter-spacing:0.08em;margin-bottom:0.4rem;color:var(--color-text-secondary);">{{ 'customer.register.first_name' | t }}</label>
+          <input type="text" name="customer[first_name]" id="FirstName" autocomplete="given-name"
+            style="width:100%;background:var(--color-bg-card);border:1px solid var(--color-border);color:var(--color-text-primary);padding:0.75rem 1rem;font-size:0.9rem;outline:none;">
+        </div>
+        <div>
+          <label for="LastName" style="display:block;font-size:0.8rem;letter-spacing:0.08em;margin-bottom:0.4rem;color:var(--color-text-secondary);">{{ 'customer.register.last_name' | t }}</label>
+          <input type="text" name="customer[last_name]" id="LastName" autocomplete="family-name"
+            style="width:100%;background:var(--color-bg-card);border:1px solid var(--color-border);color:var(--color-text-primary);padding:0.75rem 1rem;font-size:0.9rem;outline:none;">
+        </div>
+      </div>
+
+      <div style="margin-bottom:1rem;">
+        <label for="RegisterEmail" style="display:block;font-size:0.8rem;letter-spacing:0.08em;margin-bottom:0.4rem;color:var(--color-text-secondary);">{{ 'customer.register.email' | t }}</label>
+        <input type="email" name="customer[email]" id="RegisterEmail" autocomplete="email" required aria-required="true"
+          style="width:100%;background:var(--color-bg-card);border:1px solid var(--color-border);color:var(--color-text-primary);padding:0.75rem 1rem;font-size:0.9rem;outline:none;">
+      </div>
+
+      <div style="margin-bottom:1.5rem;">
+        <label for="RegisterPassword" style="display:block;font-size:0.8rem;letter-spacing:0.08em;margin-bottom:0.4rem;color:var(--color-text-secondary);">{{ 'customer.register.password' | t }}</label>
+        <input type="password" name="customer[password]" id="RegisterPassword" autocomplete="new-password" required aria-required="true"
+          style="width:100%;background:var(--color-bg-card);border:1px solid var(--color-border);color:var(--color-text-primary);padding:0.75rem 1rem;font-size:0.9rem;outline:none;">
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--full" style="margin-bottom:1rem;">{{ 'customer.register.submit' | t }}</button>
+      <p style="text-align:center;font-size:0.82rem;color:var(--color-text-secondary);">Already have an account? <a href="/account/login" style="color:var(--color-accent);">Sign in</a></p>
+    {%- endform -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Register",
+  "settings": []
+}
+{% endschema %}

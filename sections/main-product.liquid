@@ -1,5 +1,4 @@
 {%- assign current_variant = product.selected_or_first_available_variant -%}
-{%- assign sticky_inflated = current_variant.price | times: 1.3 | ceil -%}
 
 <!-- Sticky ATC bar -->
 <div class="sticky-atc" id="sticky-atc" aria-hidden="true">
@@ -11,15 +10,14 @@
         {%- endif -%}
         <div class="sticky-atc__text">
           <span class="sticky-atc__title">{{ product.title }}</span>
-          <span class="sticky-atc__price">
-            <span class="sale">{{ current_variant.price | money }}</span>
-            <span class="compare-at">{{ sticky_inflated | money }}</span>
+          <span class="sticky-atc__price" id="sticky-atc-price">
+            {%- render 'price', product: product, variant: current_variant -%}
           </span>
         </div>
       </div>
       <button class="btn btn--primary sticky-atc__btn" id="sticky-atc-btn"
         {%- unless current_variant.available %} disabled{%- endunless -%}>
-        {%- if current_variant.available -%}Add to Arsenal{%- else -%}Sold Out{%- endif -%}
+        {%- if current_variant.available -%}{{ 'products.product.add_to_cart' | t }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
       </button>
     </div>
   </div>
@@ -87,33 +85,7 @@
 
         <!-- Price -->
         <div class="product-info__price" id="product-price">
-          {%- assign inflated = current_variant.price | times: 1.3 | ceil -%}
-          <span class="sale">{{ current_variant.price | money }}</span>
-          <span class="compare-at">{{ inflated | money }}</span>
-        </div>
-
-        <!-- Bulk savings -->
-        {%- assign price_2 = current_variant.price | times: 0.85 | ceil -%}
-        {%- assign price_3 = current_variant.price | times: 0.75 | ceil -%}
-        <div class="bulk-savings" id="bulk-savings"
-          data-price-1="{{ current_variant.price }}"
-          data-price-2="{{ price_2 }}"
-          data-price-3="{{ price_3 }}">
-          <p class="bulk-savings__label">Bulk savings:</p>
-          <div class="bulk-savings__tiers">
-            <button class="bulk-tier active" data-qty="1" type="button">
-              <span class="bulk-tier__qty">Buy 1</span>
-              <span class="bulk-tier__price">{{ current_variant.price | money }}/ea</span>
-            </button>
-            <button class="bulk-tier" data-qty="2" type="button">
-              <span class="bulk-tier__qty">Buy 2</span>
-              <span class="bulk-tier__price">{{ price_2 | money }}/ea <em>–15%</em></span>
-            </button>
-            <button class="bulk-tier" data-qty="3" type="button">
-              <span class="bulk-tier__qty">Buy 3</span>
-              <span class="bulk-tier__price">{{ price_3 | money }}/ea <em>–25%</em></span>
-            </button>
-          </div>
+          {%- render 'price', product: product, variant: current_variant -%}
         </div>
 
         <hr class="product-info__divider">
@@ -177,14 +149,15 @@
           <input type="hidden" name="id" id="variant-id-input" value="{{ current_variant.id }}">
           <div class="product-info__add-to-cart">
             <div class="product-info__qty">
-              <button type="button" onclick="var i=this.nextElementSibling;i.value=Math.max(1,+i.value-1)">−</button>
-              <input type="number" name="quantity" value="1" min="1" max="99" aria-label="Quantity">
-              <button type="button" onclick="var i=this.previousElementSibling;i.value=Math.min(99,+i.value+1)">+</button>
+              <button type="button" aria-label="Decrease quantity" onclick="var i=this.nextElementSibling;i.value=Math.max(1,+i.value-1)">−</button>
+              <input type="number" name="quantity" value="1" min="1" max="99" aria-label="{{ 'products.product.quantity' | t }}">
+              <button type="button" aria-label="Increase quantity" onclick="var i=this.previousElementSibling;i.value=Math.min(99,+i.value+1)">+</button>
             </div>
             <button
               type="submit"
               class="btn btn--primary"
               style="flex:1"
+              id="add-to-cart-btn"
               {%- unless current_variant.available %} disabled{%- endunless -%}>
               {%- if current_variant.available -%}
                 {{ 'products.product.add_to_cart' | t }}
@@ -193,13 +166,10 @@
               {%- endif -%}
             </button>
           </div>
+          <div style="margin-top:0.75rem;">
+            {{ form | payment_button }}
+          </div>
         {% endform %}
-
-        <!-- In carts indicator -->
-        <div class="in-carts-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-          <span><strong id="in-carts-count">—</strong> people have this in their cart right now</span>
-        </div>
 
         <!-- Trust badges -->
         <div class="trust-badges">

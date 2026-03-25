@@ -23,20 +23,100 @@
       <p class="text-muted" style="font-size:0.82rem">
         Showing {{ paginate.current_offset | plus: 1 }}–{{ paginate.current_offset | plus: paginate.page_size | at_most: collection.products_count }} of {{ collection.products_count }} products
       </p>
-      <div class="collection-sort">
-        <select aria-label="Sort by">
-          <option value="manual" {% if collection.sort_by == 'manual' %}selected{% endif %}>{{ 'collections.sorting.manual' | t }}</option>
-          <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
-          <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>{{ 'collections.sorting.title_ascending' | t }}</option>
-          <option value="title-descending" {% if collection.sort_by == 'title-descending' %}selected{% endif %}>{{ 'collections.sorting.title_descending' | t }}</option>
-          <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
-          <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
-          <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>{{ 'collections.sorting.created_descending' | t }}</option>
-        </select>
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <!-- Filter toggle (mobile) -->
+        <button class="btn btn--ghost btn--sm" id="filter-toggle" aria-expanded="false" aria-controls="filter-panel" style="display:none;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+          Filter
+        </button>
+        <div class="collection-sort">
+          <label for="sort-by" class="visually-hidden">{{ 'collections.sorting.title' | t }}</label>
+          <select id="sort-by" aria-label="{{ 'collections.sorting.title' | t }}" onchange="window.location = window.location.pathname + '?sort_by=' + this.value">
+            <option value="manual" {% if collection.sort_by == 'manual' %}selected{% endif %}>{{ 'collections.sorting.manual' | t }}</option>
+            <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
+            <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>{{ 'collections.sorting.title_ascending' | t }}</option>
+            <option value="title-descending" {% if collection.sort_by == 'title-descending' %}selected{% endif %}>{{ 'collections.sorting.title_descending' | t }}</option>
+            <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
+            <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
+            <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>{{ 'collections.sorting.created_descending' | t }}</option>
+          </select>
+        </div>
       </div>
     </div>
 
+    <!-- Active filters -->
+    {%- if collection.filters.size > 0 -%}
+      {%- assign active_filters = 0 -%}
+      {%- for filter in collection.filters -%}
+        {%- for value in filter.active_values -%}
+          {%- assign active_filters = active_filters | plus: 1 -%}
+        {%- endfor -%}
+      {%- endfor -%}
+      {%- if active_filters > 0 -%}
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;align-items:center;">
+          <span style="font-size:0.78rem;color:var(--color-text-secondary);">Active filters:</span>
+          {%- for filter in collection.filters -%}
+            {%- for value in filter.active_values -%}
+              <a href="{{ value.url_to_remove }}" class="btn btn--outline btn--sm" style="font-size:0.75rem;">
+                {{ filter.label }}: {{ value.label }} ✕
+              </a>
+            {%- endfor -%}
+          {%- endfor -%}
+          <a href="{{ collection.url }}" style="font-size:0.78rem;color:var(--color-accent);">Clear all</a>
+        </div>
+      {%- endif -%}
+    {%- endif -%>
+
     {%- paginate collection.products by 24 -%}
+
+      {%- comment -%} Filter + grid layout {%- endcomment -%}
+      <div style="display:grid;grid-template-columns:{%- if collection.filters.size > 0 -%}220px 1fr{%- else -%}1fr{%- endif -%};gap:2rem;align-items:start;">
+
+        {%- if collection.filters.size > 0 -%}
+          <!-- Filter sidebar -->
+          <aside id="filter-panel" aria-label="Product filters">
+            {%- for filter in collection.filters -%}
+              <details open style="margin-bottom:1.5rem;border-bottom:1px solid var(--color-border);padding-bottom:1rem;">
+                <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;list-style:none;display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+                  {{ filter.label }}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                {%- case filter.type -%}
+                  {%- when 'list' -%}
+                    <ul style="list-style:none;padding:0;margin:0;">
+                      {%- for value in filter.values -%}
+                        <li style="margin-bottom:0.4rem;">
+                          <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;font-size:0.85rem;color:{% if value.active %}var(--color-accent){% else %}var(--color-text-secondary){% endif %};">
+                            <input
+                              type="checkbox"
+                              name="{{ value.param_name }}"
+                              value="{{ value.value }}"
+                              {% if value.active %}checked{% endif %}
+                              onchange="var u=new URL(window.location);{% if value.active %}u.searchParams.delete('{{ value.param_name }}','{{ value.value }}'){% else %}u.searchParams.append('{{ value.param_name }}','{{ value.value }}'){% endif %};window.location=u.toString();"
+                              style="accent-color:var(--color-accent);">
+                            {{ value.label }}
+                            <span style="color:var(--color-text-muted);font-size:0.78rem;">({{ value.count }})</span>
+                          </label>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- when 'price_range' -%}
+                    <div style="display:flex;gap:0.5rem;align-items:center;">
+                      <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | remove: ',' }}" placeholder="Min"
+                        style="width:80px;background:var(--color-bg-card);border:1px solid var(--color-border);color:var(--color-text-primary);padding:0.4rem 0.5rem;font-size:0.82rem;"
+                        onchange="var u=new URL(window.location);u.searchParams.set('{{ filter.min_value.param_name }}',this.value*100);window.location=u.toString();">
+                      <span style="color:var(--color-text-muted);">–</span>
+                      <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | remove: ',' }}" placeholder="Max"
+                        style="width:80px;background:var(--color-bg-card);border:1px solid var(--color-border);color:var(--color-text-primary);padding:0.4rem 0.5rem;font-size:0.82rem;"
+                        onchange="var u=new URL(window.location);u.searchParams.set('{{ filter.max_value.param_name }}',this.value*100);window.location=u.toString();">
+                    </div>
+                {%- endcase -%}
+              </details>
+            {%- endfor -%}
+          </aside>
+        {%- endif -%}
+
+        <div>
       <div class="product-grid">
         {%- for product in collection.products -%}
           {% render 'product-card', product: product %}
@@ -62,6 +142,9 @@
           {%- endif -%}
         </div>
       {%- endif -%}
+
+        </div>{%- comment -%}close inner div{%- endcomment -%}
+      </div>{%- comment -%}close filter+grid grid{%- endcomment -%}
     {%- endpaginate -%}
 
   </div>

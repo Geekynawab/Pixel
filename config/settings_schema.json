@@ -1,11 +1,11 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Valorant Merch Theme",
+    "theme_name": "Pixel",
     "theme_version": "1.0.0",
-    "theme_author": "Custom",
-    "theme_documentation_url": "https://github.com/Geekynawab/valorant-shopify-theme",
-    "theme_support_url": "https://github.com/Geekynawab/valorant-shopify-theme"
+    "theme_author": "GeekyNawab",
+    "theme_documentation_url": "https://github.com/Geekynawab/Pixel",
+    "theme_support_url": "https://github.com/Geekynawab/Pixel"
   },
   {
     "name": "Colors",

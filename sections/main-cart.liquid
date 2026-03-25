@@ -64,6 +64,20 @@
               <span style="color:var(--color-text-primary);font-weight:700">{{ cart.total_price | money }}</span>
             </div>
 
+            <!-- Discount code -->
+            <div style="margin-bottom:1.25rem;">
+              <label for="cart-discount" style="display:block;font-size:0.78rem;letter-spacing:0.08em;margin-bottom:0.4rem;color:var(--color-text-secondary);">Discount code</label>
+              <div style="display:flex;gap:0.5rem;">
+                <input
+                  type="text"
+                  id="cart-discount"
+                  name="discount"
+                  style="flex:1;background:var(--color-bg-primary);border:1px solid var(--color-border);color:var(--color-text-primary);padding:0.6rem 0.75rem;font-size:0.85rem;outline:none;"
+                  placeholder="Enter code">
+                <button type="button" class="btn btn--outline btn--sm" onclick="window.location='/discount/'+document.getElementById('cart-discount').value+'?redirect=/cart'">Apply</button>
+              </div>
+            </div>
+
             <p style="font-size:0.75rem;color:var(--color-text-muted);margin-bottom:1.25rem">
               {{ 'cart.general.taxes_and_shipping_policy_at_checkout_html' | t }}
             </p>
@@ -71,6 +85,10 @@
             <button type="submit" name="checkout" class="btn btn--primary btn--full">
               {{ 'cart.general.checkout' | t }}
             </button>
+
+            <div style="margin-top:0.75rem;">
+              {{ cart | payment_button }}
+            </div>
 
             <a href="/collections/all" class="btn btn--ghost btn--full" style="margin-top:0.5rem">
               {{ 'cart.general.continue_browsing' | t }}

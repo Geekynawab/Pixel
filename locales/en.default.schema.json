@@ -1,0 +1,28 @@
+{
+  "settings_schema": {
+    "colors": {
+      "name": "Colors"
+    },
+    "typography": {
+      "name": "Typography"
+    },
+    "layout": {
+      "name": "Layout"
+    },
+    "social_media": {
+      "name": "Social media"
+    },
+    "favicon": {
+      "name": "Favicon"
+    },
+    "age_verification": {
+      "name": "Age verification"
+    },
+    "cart": {
+      "name": "Cart"
+    },
+    "footer": {
+      "name": "Footer"
+    }
+  }
+}

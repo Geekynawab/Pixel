@@ -1,0 +1,96 @@
+<div class="section">
+  <div class="container" style="max-width:800px;">
+
+    <div style="margin-bottom:1.5rem;">
+      <a href="/account" style="font-size:0.82rem;color:var(--color-text-secondary);">← Back to account</a>
+    </div>
+
+    <h1 class="section-title" style="margin-bottom:0.5rem;">{{ 'customer.orders.order_number' | t: number: order.name }}</h1>
+    <p style="color:var(--color-text-secondary);font-size:0.82rem;margin-bottom:2rem;">{{ order.created_at | time_tag: format: 'date' }}</p>
+
+    <!-- Order items -->
+    <table style="width:100%;border-collapse:collapse;font-size:0.88rem;margin-bottom:2rem;">
+      <thead>
+        <tr style="border-bottom:1px solid var(--color-border);text-align:left;">
+          <th style="padding:0.75rem 0;color:var(--color-text-secondary);font-weight:600;">Product</th>
+          <th style="padding:0.75rem 0;color:var(--color-text-secondary);font-weight:600;">Qty</th>
+          <th style="padding:0.75rem 0;color:var(--color-text-secondary);font-weight:600;">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for line_item in order.line_items -%}
+          <tr style="border-bottom:1px solid var(--color-border);">
+            <td style="padding:0.75rem 0;">
+              <div style="display:flex;align-items:center;gap:0.75rem;">
+                {%- if line_item.image -%}
+                  <img src="{{ line_item.image | image_url: width: 80 }}" alt="{{ line_item.title | escape }}" width="40" height="40" loading="lazy" style="object-fit:cover;">
+                {%- endif -%}
+                <div>
+                  <p style="font-weight:600;">{{ line_item.product.title }}</p>
+                  {%- if line_item.variant.title != 'Default Title' -%}
+                    <p style="color:var(--color-text-secondary);font-size:0.8rem;">{{ line_item.variant.title }}</p>
+                  {%- endif -%}
+                  {%- if line_item.line_level_discount_allocations.size > 0 -%}
+                    {%- for discount in line_item.line_level_discount_allocations -%}
+                      <p style="color:var(--color-accent);font-size:0.78rem;">{{ discount.discount_application.title }}</p>
+                    {%- endfor -%}
+                  {%- endif -%}
+                </div>
+              </div>
+            </td>
+            <td style="padding:0.75rem 0;color:var(--color-text-secondary);">{{ line_item.quantity }}</td>
+            <td style="padding:0.75rem 0;font-weight:700;">{{ line_item.final_line_price | money }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+
+    <!-- Order summary -->
+    <div style="max-width:320px;margin-left:auto;background:var(--color-bg-card);border:1px solid var(--color-border);padding:1.5rem;font-size:0.88rem;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+        <span style="color:var(--color-text-secondary);">Subtotal</span>
+        <span>{{ order.subtotal_price | money }}</span>
+      </div>
+      {%- for discount in order.cart_level_discount_applications -%}
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+          <span style="color:var(--color-text-secondary);">{{ discount.title }}</span>
+          <span style="color:var(--color-accent);">-{{ discount.total_allocated_amount | money }}</span>
+        </div>
+      {%- endfor -%}
+      <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+        <span style="color:var(--color-text-secondary);">Shipping</span>
+        <span>{{ order.shipping_price | money }}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+        <span style="color:var(--color-text-secondary);">Tax</span>
+        <span>{{ order.tax_price | money }}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;border-top:1px solid var(--color-border);padding-top:0.75rem;margin-top:0.75rem;font-weight:700;">
+        <span>Total</span>
+        <span>{{ order.total_price | money }}</span>
+      </div>
+    </div>
+
+    <!-- Shipping address -->
+    {%- if order.shipping_address -%}
+      <div style="margin-top:2rem;">
+        <h2 style="font-size:0.9rem;letter-spacing:0.08em;margin-bottom:0.75rem;">Shipping Address</h2>
+        <address style="font-style:normal;font-size:0.88rem;color:var(--color-text-secondary);line-height:1.7;">
+          {{ order.shipping_address.name }}<br>
+          {{ order.shipping_address.address1 }}<br>
+          {%- if order.shipping_address.address2 != blank -%}{{ order.shipping_address.address2 }}<br>{%- endif -%}
+          {{ order.shipping_address.city }}, {{ order.shipping_address.province_code }} {{ order.shipping_address.zip }}<br>
+          {{ order.shipping_address.country }}
+        </address>
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Order",
+  "settings": []
+}
+{% endschema %}

@@ -13,29 +13,43 @@
 
       <!-- Logo -->
       <a href="/" class="site-logo" aria-label="{{ shop.name }} — Home">
-        {%- if settings.logo != blank -%}
+        {%- if section.settings.logo != blank -%}
+          <img
+            src="{{ section.settings.logo | image_url: width: section.settings.logo_width }}"
+            alt="{{ shop.name }}"
+            width="{{ section.settings.logo_width }}"
+            loading="eager">
+        {%- elsif settings.logo != blank -%}
           <img
             src="{{ settings.logo | image_url: width: settings.logo_width }}"
             alt="{{ shop.name }}"
             width="{{ settings.logo_width }}"
             loading="eager">
         {%- else -%}
-          <span class="site-logo__text">{{ settings.logo_text | default: 'KNIVES FACTORY' }}</span>
+          <span class="site-logo__text">{{ shop.name | upcase }}</span>
         {%- endif -%}
       </a>
 
       <!-- Desktop only: Nav -->
       <nav class="desktop-nav" aria-label="Main navigation">
-        <a href="/collections/all" class="desktop-nav__link">Shop All</a>
-
-        <div class="desktop-nav__item" id="categories-nav-item">
-          <button class="desktop-nav__link desktop-nav__btn" aria-expanded="false" aria-controls="mega-menu">
-            Categories
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-        </div>
-
-        <a href="/pages/contact" class="desktop-nav__link">Contact</a>
+        {%- for link in linklists[section.settings.menu].links -%}
+          {%- if link.links != blank -%}
+            <div class="desktop-nav__item" style="position:relative;">
+              <button class="desktop-nav__link desktop-nav__btn" aria-expanded="false" aria-haspopup="true"
+                onclick="var d=this.nextElementSibling;var open=d.style.display==='block';document.querySelectorAll('.desktop-nav__dropdown').forEach(function(x){x.style.display='none';});d.style.display=open?'none':'block';this.setAttribute('aria-expanded',!open);">
+                {{ link.title }}
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="desktop-nav__dropdown" style="display:none;position:absolute;top:100%;left:0;background:var(--color-bg-secondary);border:1px solid var(--color-border);min-width:180px;z-index:100;">
+                {%- for child in link.links -%}
+                  <a href="{{ child.url }}" class="desktop-nav__link" style="display:block;padding:0.6rem 1rem;font-size:0.85rem;">{{ child.title }}</a>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- else -%}
+            <a href="{{ link.url }}" class="desktop-nav__link"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+          {%- endif -%}
+        {%- endfor -%}
       </nav>
 
       <!-- Right: Action icons -->
@@ -120,39 +134,23 @@
 
   <!-- Mobile nav drawer -->
   <nav class="mobile-nav" id="mobile-nav" aria-label="Site navigation">
-
-    <div class="mobile-nav__item">
-      <a href="/collections/all" class="mobile-nav__link">All Products</a>
-    </div>
-
-    <div class="mobile-nav__item">
-      <button class="mobile-nav__link mobile-nav__toggle" data-mobile-toggle="mobile-sub-types">
-        Browse by Type
-        <span class="toggle-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
-      </button>
-      <div class="mobile-nav__sub" id="mobile-sub-types">
-        <a href="/collections/keychains-1">Keychains</a>
-        <a href="/collections/toys-1">Toys</a>
-        <a href="/collections/mousepads-1">Mousepads</a>
+    {%- for link in linklists[section.settings.menu].links -%}
+      <div class="mobile-nav__item">
+        {%- if link.links != blank -%}
+          <button class="mobile-nav__link mobile-nav__toggle" data-mobile-toggle="mobile-sub-{{ forloop.index }}" aria-expanded="false">
+            {{ link.title }}
+            <span class="toggle-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="mobile-nav__sub" id="mobile-sub-{{ forloop.index }}">
+            {%- for child in link.links -%}
+              <a href="{{ child.url }}">{{ child.title }}</a>
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          <a href="{{ link.url }}" class="mobile-nav__link"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+        {%- endif -%}
       </div>
-    </div>
-
-    <div class="mobile-nav__item">
-      <button class="mobile-nav__link mobile-nav__toggle" data-mobile-toggle="mobile-sub-collections">
-        Skins
-        <span class="toggle-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
-      </button>
-      <div class="mobile-nav__sub" id="mobile-sub-collections">
-        <a href="/collections/prime-1">Prime</a>
-        <a href="/collections/reaver-1">Reaver</a>
-        <a href="/collections/ion">Ion</a>
-      </div>
-    </div>
-
-    <div class="mobile-nav__item">
-      <a href="/pages/contact" class="mobile-nav__link">Contact</a>
-    </div>
-
+    {%- endfor -%}
   </nav>
 
 </header>
@@ -161,6 +159,34 @@
 {
   "name": "Header",
   "limit": 1,
-  "settings": []
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Navigation menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo width",
+      "min": 50,
+      "max": 240,
+      "step": 5,
+      "unit": "px",
+      "default": 140
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Sticky header",
+      "default": true
+    }
+  ]
 }
 {% endschema %}

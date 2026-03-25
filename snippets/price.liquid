@@ -1,23 +1,31 @@
 {%- liquid
-  if product
-    assign price = product.price_min
-    assign available = product.available
-    assign price_varies = product.price_varies
-  elsif variant
+  if variant
     assign price = variant.price
+    assign compare_at = variant.compare_at_price
     assign available = variant.available
     assign price_varies = false
+  elsif product
+    assign price = product.price_min
+    assign compare_at = product.compare_at_price_min
+    assign available = product.available
+    assign price_varies = product.price_varies
   endif
-  assign inflated_price = price | times: 1.3 | ceil
+  assign on_sale = false
+  if compare_at and compare_at > price
+    assign on_sale = true
+  endif
 -%}
 
 {%- if available == false -%}
-  <span class="text-muted">{{ 'products.product.sold_out' | t }}</span>
+  <span class="price-sold-out text-muted">{{ 'products.product.sold_out' | t }}</span>
 {%- else -%}
   {%- if price_varies -%}
-    <span class="sale">From {{ price | money }}</span>
+    <span class="price-sale">{{ 'products.product.from_price_html' | t: price: price | money }}</span>
   {%- else -%}
-    <span class="sale">{{ price | money }}</span>
+    <span class="price-sale{% if on_sale %} on-sale{% endif %}">{{ price | money }}</span>
   {%- endif -%}
-  <span class="compare-at">{{ inflated_price | money }}</span>
+  {%- if on_sale -%}
+    <s class="price-compare" aria-label="Original price">{{ compare_at | money }}</s>
+    <span class="badge badge--sale" aria-label="On sale">{{ 'products.product.on_sale' | t }}</span>
+  {%- endif -%}
 {%- endif -%}
