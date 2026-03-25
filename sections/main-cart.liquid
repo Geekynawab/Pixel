@@ -25,6 +25,15 @@
                   {%- if item.variant.title != 'Default Title' -%}
                     <p class="cart-item__variant">{{ item.variant.title }}</p>
                   {%- endif -%}
+                  {%- if item.properties.size > 0 -%}
+                    {%- for property in item.properties -%}
+                      {%- unless property.last == blank -%}
+                        <p style="font-size:0.78rem;color:var(--color-text-muted);margin:0.1rem 0;">
+                          {{ property.first }}: {{ property.last }}
+                        </p>
+                      {%- endunless -%}
+                    {%- endfor -%}
+                  {%- endif -%}
                   <div class="cart-item__bottom">
                     <div class="qty-selector">
                       <button type="button" onclick="var i=document.getElementById('qty-{{ item.index }}');i.value=Math.max(0,+i.value-1);i.form.submit()">−</button>

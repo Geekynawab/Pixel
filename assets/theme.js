@@ -329,24 +329,57 @@
       });
       if (!match) return;
 
-      // Update hidden variant ID
-      var idInput = $('#variant-id-input');
-      if (idInput) idInput.value = match.id;
+      // Update hidden variant ID inputs
+      $$('#variant-id-input').forEach(function (el) { el.value = match.id; });
 
-      // Update price display
-      var priceEl = $('#product-price');
-      if (priceEl) {
-        var inflated = Math.ceil(match.price * 1.3);
-        priceEl.innerHTML =
-          '<span class="sale">' + formatMoney(match.price) + '</span>' +
-          '<span class="compare-at">' + formatMoney(inflated) + '</span>';
+      // Update URL without reload
+      if (window.history && window.history.replaceState) {
+        var url = new URL(window.location.href);
+        url.searchParams.set('variant', match.id);
+        window.history.replaceState({}, '', url.toString());
       }
 
-      // Update add to cart button availability
-      var addBtn = $('[data-add-to-cart-form] [type="submit"]');
+      // Update price display using real compare_at_price
+      var priceEl = $('#product-price');
+      if (priceEl) {
+        var html = '<span class="price-sale' + (match.compare_at_price > match.price ? ' on-sale' : '') + '">' + formatMoney(match.price) + '</span>';
+        if (match.compare_at_price && match.compare_at_price > match.price) {
+          html += '<s class="price-compare">' + formatMoney(match.compare_at_price) + '</s>';
+          html += '<span class="badge badge--sale">Sale</span>';
+        }
+        priceEl.innerHTML = html;
+      }
+
+      // Update SKU
+      var skuEl = $('#product-sku span');
+      var skuWrap = $('#product-sku');
+      if (skuWrap) skuWrap.style.display = match.sku ? '' : 'none';
+      if (skuEl) skuEl.textContent = match.sku || '';
+
+      // Update add to cart button
+      var addBtn = $('#add-to-cart-btn');
       if (addBtn) {
         addBtn.disabled = !match.available;
-        addBtn.textContent = match.available ? 'Add to Arsenal' : 'Sold Out';
+        addBtn.textContent = match.available ? addBtn.dataset.addText || 'Add to Cart' : addBtn.dataset.soldText || 'Sold Out';
+      }
+      var stickyBtn = $('#sticky-atc-btn');
+      if (stickyBtn) stickyBtn.disabled = !match.available;
+
+      // Switch gallery image to variant image if it has one
+      if (match.featured_image) {
+        var mainImg = $('#gallery-main img');
+        if (mainImg) {
+          mainImg.src = match.featured_image;
+          // Also mark matching thumbnail as active
+          $$('.product-gallery__thumb').forEach(function (thumb) {
+            var thumbImg = $('img', thumb);
+            if (thumbImg && thumbImg.src.replace(/width=\d+/, 'width=120') ===
+                match.featured_image.replace(/width=\d+/, 'width=120')) {
+              $$('.product-gallery__thumb').forEach(function (t) { t.classList.remove('active'); });
+              thumb.classList.add('active');
+            }
+          });
+        }
       }
     }
   };

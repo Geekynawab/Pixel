@@ -30,38 +30,63 @@
 
       <!-- LEFT: Sticky gallery -->
       <div class="product-layout__gallery">
-        <div class="product-gallery{% if product.images.size <= 1 %} product-gallery--single{% endif %}">
+        <div class="product-gallery{% if product.media.size <= 1 %} product-gallery--single{% endif %}">
 
-          {%- if product.images.size > 1 -%}
+          {%- if product.media.size > 1 -%}
             <div class="product-gallery__thumbs">
-              {%- for image in product.images limit: 8 -%}
+              {%- for media in product.media limit: 8 -%}
                 <button
                   class="product-gallery__thumb{% if forloop.first %} active{% endif %}"
-                  data-src="{{ image | image_url: width: 900 }}"
-                  aria-label="View image {{ forloop.index }}">
-                  <img
-                    src="{{ image | image_url: width: 120 }}"
-                    alt="{{ image.alt | default: product.title | escape }}"
-                    width="120"
-                    height="120"
-                    loading="lazy">
+                  data-media-id="{{ media.id }}"
+                  data-media-type="{{ media.media_type }}"
+                  {%- if media.media_type == 'image' -%}
+                    data-src="{{ media | image_url: width: 900 }}"
+                  {%- endif -%}
+                  aria-label="View media {{ forloop.index }}">
+                  {%- if media.media_type == 'image' -%}
+                    <img
+                      src="{{ media | image_url: width: 120 }}"
+                      alt="{{ media.alt | default: product.title | escape }}"
+                      width="120" height="120" loading="lazy">
+                  {%- elsif media.media_type == 'video' or media.media_type == 'external_video' -%}
+                    <div style="width:120px;height:120px;background:var(--color-bg-secondary);display:flex;align-items:center;justify-content:center;">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    </div>
+                  {%- elsif media.media_type == 'model' -%}
+                    <div style="width:120px;height:120px;background:var(--color-bg-secondary);display:flex;align-items:center;justify-content:center;">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+                    </div>
+                  {%- endif -%}
                 </button>
               {%- endfor -%}
             </div>
           {%- endif -%}
 
-          <div class="product-gallery__main">
-            {%- if product.featured_image != blank -%}
-              <img
-                id="gallery-main-img"
-                src="{{ product.featured_image | image_url: width: 900 }}"
-                alt="{{ product.featured_image.alt | default: product.title | escape }}"
-                loading="eager"
-                width="900"
-                height="900">
+          <div class="product-gallery__main" id="gallery-main">
+            {%- for media in product.media limit: 1 -%}
+              {%- case media.media_type -%}
+                {%- when 'image' -%}
+                  <img
+                    id="gallery-main-img"
+                    src="{{ media | image_url: width: 900 }}"
+                    srcset="{{ media | image_url: width: 600 }} 600w, {{ media | image_url: width: 900 }} 900w, {{ media | image_url: width: 1200 }} 1200w"
+                    sizes="(max-width:768px) 100vw, 50vw"
+                    alt="{{ media.alt | default: product.title | escape }}"
+                    loading="eager"
+                    width="{{ media.width }}"
+                    height="{{ media.height }}">
+                {%- when 'video' -%}
+                  {{ media | media_tag: autoplay: false, loop: false, controls: true, class: 'product-gallery__video' }}
+                {%- when 'external_video' -%}
+                  <div class="product-gallery__video-wrap" style="aspect-ratio:16/9;">
+                    {{ media | external_video_url: autoplay: false | external_video_tag: loading: 'lazy' }}
+                  </div>
+                {%- when 'model' -%}
+                  {{ media | model_viewer_tag: reveal: 'interaction', toggleable: true, data-shopify-feature: '3d-model' }}
+              {%- endcase -%}
             {%- else -%}
               {{ 'product-1' | placeholder_svg_tag: 'product-gallery__placeholder' }}
-            {%- endif -%}
+            {%- endfor -%}
           </div>
 
         </div>
@@ -88,6 +113,19 @@
           {%- render 'price', product: product, variant: current_variant -%}
         </div>
 
+        <!-- Shop Pay installments -->
+        {% form 'product', product %}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+          {{ form | payment_terms }}
+        {% endform %}
+
+        <!-- SKU -->
+        {%- if current_variant.sku != blank -%}
+          <p class="product-info__sku" id="product-sku" style="font-size:0.78rem;color:var(--color-text-muted);margin-bottom:0.5rem;">
+            {{ 'products.product.sku' | t }}: <span>{{ current_variant.sku }}</span>
+          </p>
+        {%- endif -%}
+
         <hr class="product-info__divider">
 
         <!-- Variant JSON for JS -->
@@ -100,6 +138,8 @@
                 "price": {{ variant.price }},
                 "compare_at_price": {{ variant.compare_at_price | default: 0 }},
                 "available": {{ variant.available }},
+                "sku": {{ variant.sku | json }},
+                "featured_image": {%- if variant.featured_image -%}{{ variant.featured_image | image_url: width: 900 | json }}{%- else -%}null{%- endif -%},
                 "options": [
                   {%- for opt in variant.options -%}
                     {{ opt | json }}{%- unless forloop.last -%},{%- endunless -%}
@@ -158,6 +198,8 @@
               class="btn btn--primary"
               style="flex:1"
               id="add-to-cart-btn"
+              data-add-text="{{ 'products.product.add_to_cart' | t | escape }}"
+              data-sold-text="{{ 'products.product.sold_out' | t | escape }}"
               {%- unless current_variant.available %} disabled{%- endunless -%}>
               {%- if current_variant.available -%}
                 {{ 'products.product.add_to_cart' | t }}
