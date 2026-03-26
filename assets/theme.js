@@ -477,9 +477,9 @@
      -------------------------------------------------------------------------- */
   var AnnouncementBar = {
     init: function () {
-      var closeBtn = $('.announcement-bar__close');
       var bar      = $('.announcement-bar');
-      if (!closeBtn || !bar) return;
+      var closeBtn = $('.announcement-bar__close');
+      if (!bar) return;
 
       // Restore dismissed state
       if (sessionStorage.getItem('announcement-dismissed')) {
@@ -487,10 +487,37 @@
         return;
       }
 
-      on(closeBtn, 'click', function () {
-        bar.style.display = 'none';
-        sessionStorage.setItem('announcement-dismissed', '1');
-      });
+      // Dismiss
+      if (closeBtn) {
+        on(closeBtn, 'click', function () {
+          bar.style.display = 'none';
+          sessionStorage.setItem('announcement-dismissed', '1');
+        });
+      }
+
+      // Cycling
+      var slides = Array.from(bar.querySelectorAll('.announcement-bar__slide'));
+      if (slides.length < 2) return;
+
+      var current = 0;
+      var interval = parseInt(bar.dataset.interval || '4', 10) * 1000;
+
+      function next() {
+        var leaving = slides[current];
+        current = (current + 1) % slides.length;
+        var entering = slides[current];
+
+        leaving.classList.add('is-leaving');
+        leaving.classList.remove('is-active');
+
+        entering.classList.add('is-active');
+
+        setTimeout(function () {
+          leaving.classList.remove('is-leaving');
+        }, 420);
+      }
+
+      setInterval(next, interval);
     }
   };
 

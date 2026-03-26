@@ -264,28 +264,55 @@ h4 { font-size: 0.938rem; font-weight: 700; }
   justify-content: center;
   font-size: 0.5625rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   position: relative;
-  z-index: 30;
+  z-index: 60;
+  overflow: hidden;
 }
-
+.announcement-bar__track {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.announcement-bar__slide {
+  position: absolute;
+  left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+.announcement-bar__slide.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.announcement-bar__slide.is-leaving {
+  opacity: 0;
+  transform: translateY(-8px);
+}
 .announcement-bar a {
   color: inherit;
   transition: opacity var(--transition-fast);
 }
 .announcement-bar a:hover { opacity: 0.7; }
-
 .announcement-bar__close {
   position: absolute;
   right: var(--container-pad-sm);
   top: 50%;
   transform: translateY(-50%);
   color: #fff;
-  opacity: 0.6;
+  opacity: 0.5;
   padding: 0.25rem;
   line-height: 1;
-  font-size: 0.75rem;
+  z-index: 2;
 }
 .announcement-bar__close:hover { opacity: 1; }
 @media (min-width: 768px) {
