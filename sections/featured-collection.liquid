@@ -13,7 +13,6 @@
           <p class="section-subtitle">{{ section.settings.eyebrow }}</p>
         {%- endif -%}
         <h2 class="section-title">{{ section.settings.heading | default: collection.title }}</h2>
-        <span class="section-divider"></span>
       </div>
       {%- if section.settings.show_view_all -%}
         <a href="{{ collection.url }}" class="btn btn--outline btn--sm">View All</a>
@@ -63,7 +62,7 @@
       "min": 4,
       "max": 12,
       "step": 4,
-      "default": 8
+      "default": 4
     },
     {
       "type": "checkbox",

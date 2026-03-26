@@ -104,22 +104,29 @@
     {%- endfor -%}
   </div>
 
-  <!-- ── Inline header search ── -->
+  <!-- ── Inline header search with predictive results ── -->
   <div class="header-search" id="header-search" aria-hidden="true">
     <div class="container">
-      <form action="/search" method="get" class="header-search__form">
+      <form action="/search" method="get" class="header-search__form" role="search">
         <input type="hidden" name="type" value="product">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
-        <input
-          type="search"
-          name="q"
-          id="header-search-input"
-          class="header-search__input"
-          placeholder="Search products..."
-          autocomplete="off"
-          aria-label="Search products">
+        <div class="header-search-wrap">
+          <input
+            type="search"
+            name="q"
+            id="header-search-input"
+            class="header-search__input"
+            placeholder="Search products..."
+            autocomplete="off"
+            aria-label="Search products"
+            aria-expanded="false"
+            aria-owns="predictive-search-results"
+            aria-autocomplete="list"
+            role="combobox">
+          <div class="predictive-search" id="predictive-search-results" role="listbox" aria-label="Search suggestions"></div>
+        </div>
         <button type="button" class="header-search__close" id="header-search-close" aria-label="Close search">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>

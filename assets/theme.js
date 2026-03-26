@@ -1071,3 +1071,81 @@
   });
 
 })();
+
+/* ==========================================================================
+   Predictive Search
+   ========================================================================== */
+(function () {
+  var input = document.getElementById('header-search-input');
+  var results = document.getElementById('predictive-search-results');
+  if (!input || !results) return;
+
+  var debounceTimer;
+  var currentQuery = '';
+
+  function debounce(fn, delay) {
+    return function () {
+      var args = arguments;
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function () { fn.apply(null, args); }, delay);
+    };
+  }
+
+  function formatMoney(cents) {
+    return (cents / 100).toLocaleString('en-US', { style: 'currency', currency: window.Shopify && window.Shopify.currency ? window.Shopify.currency.active : 'USD' });
+  }
+
+  function renderResults(data) {
+    var products = data.resources && data.resources.results && data.resources.results.products || [];
+
+    if (!products.length) {
+      results.innerHTML = '<p class="predictive-search__empty">No results for &ldquo;' + currentQuery + '&rdquo;</p>';
+      results.classList.add('is-open');
+      input.setAttribute('aria-expanded', 'true');
+      return;
+    }
+
+    var html = '<p class="predictive-search__heading">Products</p>';
+    products.slice(0, 5).forEach(function (p) {
+      var img = p.featured_image
+        ? '<img class="predictive-search__img" src="' + p.featured_image + '" alt="" loading="lazy" width="44" height="44">'
+        : '<div class="predictive-search__img"></div>';
+      var price = p.price ? formatMoney(p.price) : '';
+      html += '<a href="' + p.url + '" class="predictive-search__item" role="option">'
+        + img
+        + '<span class="predictive-search__info">'
+        + '<span class="predictive-search__title">' + p.title + '</span>'
+        + (price ? '<span class="predictive-search__price">' + price + '</span>' : '')
+        + '</span></a>';
+    });
+
+    html += '<div class="predictive-search__footer">'
+      + '<a href="/search?type=product&q=' + encodeURIComponent(currentQuery) + '">See all results for &ldquo;' + currentQuery + '&rdquo;</a>'
+      + '</div>';
+
+    results.innerHTML = html;
+    results.classList.add('is-open');
+    input.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeResults() {
+    results.classList.remove('is-open');
+    input.setAttribute('aria-expanded', 'false');
+  }
+
+  var fetchResults = debounce(function (q) {
+    if (q.length < 2) { closeResults(); return; }
+    currentQuery = q;
+    fetch('/search/suggest.json?q=' + encodeURIComponent(q) + '&resources[type]=product&resources[limit]=5&resources[options][fields]=title,product_type,variants.title')
+      .then(function (r) { return r.json(); })
+      .then(renderResults)
+      .catch(function () { closeResults(); });
+  }, 200);
+
+  input.addEventListener('input', function () { fetchResults(this.value.trim()); });
+  input.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeResults(); });
+
+  document.addEventListener('click', function (e) {
+    if (!results.contains(e.target) && e.target !== input) closeResults();
+  });
+})();

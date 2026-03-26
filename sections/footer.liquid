@@ -62,6 +62,36 @@
 
     </div>
 
+    <!-- Localization -->
+    {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
+      <div class="footer-localization">
+        {%- if localization.available_countries.size > 1 -%}
+          {% form 'localization', class: 'footer-localization__form' %}
+            <label for="footer-country" class="footer-localization__label">{{ 'localization.country_label' | t | default: 'Country/Region' }}</label>
+            <select id="footer-country" name="country_code" class="footer-localization__select" onchange="this.form.submit()">
+              {%- for country in localization.available_countries -%}
+                <option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>
+                  {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+                </option>
+              {%- endfor -%}
+            </select>
+          {% endform %}
+        {%- endif -%}
+        {%- if localization.available_languages.size > 1 -%}
+          {% form 'localization', class: 'footer-localization__form' %}
+            <label for="footer-language" class="footer-localization__label">{{ 'localization.language_label' | t | default: 'Language' }}</label>
+            <select id="footer-language" name="locale_code" class="footer-localization__select" onchange="this.form.submit()">
+              {%- for language in localization.available_languages -%}
+                <option value="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} selected{% endif %}>
+                  {{ language.endonym_name | capitalize }}
+                </option>
+              {%- endfor -%}
+            </select>
+          {% endform %}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
     <!-- Footer bottom -->
     <div class="footer-bottom">
       <p class="footer-bottom__copy">

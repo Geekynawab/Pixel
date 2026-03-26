@@ -1,46 +1,109 @@
-{%- assign col_handles = 'prime-1,reaver-1,ion' | split: ',' -%}
+<section class="editorial-row" id="editorial-row-{{ section.id }}">
 
-<section class="collections-showcase section">
-  <div class="container">
+  <!-- Left panel -->
+  <div class="editorial-row__panel">
+    {%- if section.settings.image_1 != blank -%}
+      <img
+        src="{{ section.settings.image_1 | image_url: width: 1200 }}"
+        alt="{{ section.settings.image_1.alt | escape }}"
+        loading="lazy"
+        width="1200"
+        height="1600">
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
 
-    {%- for handle in col_handles -%}
-      {%- assign col = collections[handle] -%}
-      {%- if col != blank -%}
-        <div class="showcase-block">
-
-          <div class="showcase-block__header">
-            <div class="showcase-block__title-wrap">
-              <span class="section-subtitle">{{ col.description | default: 'Browse' }}</span>
-              <h2 class="section-title">{{ col.title }}</h2>
-              <span class="section-divider"></span>
-            </div>
-            <a href="{{ col.url }}" class="btn btn--outline btn--sm">View All →</a>
-          </div>
-
-          {%- if col.products_count > 0 -%}
-            <div class="product-grid">
-              {%- for product in col.products limit: 4 -%}
-                {% render 'product-card', product: product %}
-              {%- endfor -%}
-            </div>
-          {%- else -%}
-            <p class="showcase-block__empty">No products yet — check back soon.</p>
-          {%- endif -%}
-
-        </div>
-      {%- endif -%}
-    {%- endfor -%}
-
+    {%- assign col_1 = collections[section.settings.collection_1] -%}
+    {%- if section.settings.label_1 != blank or col_1 != blank -%}
+      <div class="editorial-row__overlay"></div>
+      <div class="editorial-row__caption">
+        {%- if section.settings.label_1 != blank -%}
+          <p class="editorial-row__label">{{ section.settings.label_1 }}</p>
+        {%- endif -%}
+        {%- if col_1 != blank -%}
+          <p class="editorial-row__title">{{ col_1.title }}</p>
+          <a href="{{ col_1.url }}" class="editorial-row__link">Shop Now →</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
   </div>
+
+  <!-- Right panel -->
+  <div class="editorial-row__panel">
+    {%- if section.settings.image_2 != blank -%}
+      <img
+        src="{{ section.settings.image_2 | image_url: width: 1200 }}"
+        alt="{{ section.settings.image_2.alt | escape }}"
+        loading="lazy"
+        width="1200"
+        height="1600">
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+
+    {%- assign col_2 = collections[section.settings.collection_2] -%}
+    {%- if section.settings.label_2 != blank or col_2 != blank -%}
+      <div class="editorial-row__overlay"></div>
+      <div class="editorial-row__caption">
+        {%- if section.settings.label_2 != blank -%}
+          <p class="editorial-row__label">{{ section.settings.label_2 }}</p>
+        {%- endif -%}
+        {%- if col_2 != blank -%}
+          <p class="editorial-row__title">{{ col_2.title }}</p>
+          <a href="{{ col_2.url }}" class="editorial-row__link">Shop Now →</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+
 </section>
 
 {% schema %}
 {
-  "name": "Collections Showcase",
+  "name": "Editorial Row",
   "tag": "section",
-  "settings": [],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Left image"
+    },
+    {
+      "type": "collection",
+      "id": "collection_1",
+      "label": "Left collection"
+    },
+    {
+      "type": "text",
+      "id": "label_1",
+      "label": "Left eyebrow label",
+      "default": "New In"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Right image"
+    },
+    {
+      "type": "collection",
+      "id": "collection_2",
+      "label": "Right collection"
+    },
+    {
+      "type": "text",
+      "id": "label_2",
+      "label": "Right eyebrow label",
+      "default": "Bestsellers"
+    }
+  ],
   "presets": [
-    { "name": "Collections Showcase" }
+    {
+      "name": "Editorial Row",
+      "settings": {
+        "label_1": "New In",
+        "label_2": "Bestsellers"
+      }
+    }
   ]
 }
 {% endschema %}
