@@ -477,23 +477,8 @@
      -------------------------------------------------------------------------- */
   var AnnouncementBar = {
     init: function () {
-      var bar      = $('.announcement-bar');
-      var closeBtn = $('.announcement-bar__close');
+      var bar = $('.announcement-bar');
       if (!bar) return;
-
-      // Restore dismissed state
-      if (sessionStorage.getItem('announcement-dismissed')) {
-        bar.style.display = 'none';
-        return;
-      }
-
-      // Dismiss
-      if (closeBtn) {
-        on(closeBtn, 'click', function () {
-          bar.style.display = 'none';
-          sessionStorage.setItem('announcement-dismissed', '1');
-        });
-      }
 
       // Cycling
       var slides = Array.from(bar.querySelectorAll('.announcement-bar__slide'));
