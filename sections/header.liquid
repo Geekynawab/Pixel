@@ -1,3 +1,37 @@
+<!-- ── Announcement Bar ── -->
+<div class="announcement-bar" id="announcement-bar" data-interval="{{ section.settings.bar_interval }}" aria-live="polite">
+  <div class="announcement-bar__track">
+    {%- if section.settings.bar_message_1 != blank -%}
+      <div class="announcement-bar__slide is-active">
+        {%- if section.settings.bar_link_1 != blank -%}<a href="{{ section.settings.bar_link_1 }}">{{ section.settings.bar_message_1 }}</a>{%- else -%}<span>{{ section.settings.bar_message_1 }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if section.settings.bar_message_2 != blank -%}
+      <div class="announcement-bar__slide">
+        {%- if section.settings.bar_link_2 != blank -%}<a href="{{ section.settings.bar_link_2 }}">{{ section.settings.bar_message_2 }}</a>{%- else -%}<span>{{ section.settings.bar_message_2 }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if section.settings.bar_message_3 != blank -%}
+      <div class="announcement-bar__slide">
+        {%- if section.settings.bar_link_3 != blank -%}<a href="{{ section.settings.bar_link_3 }}">{{ section.settings.bar_message_3 }}</a>{%- else -%}<span>{{ section.settings.bar_message_3 }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if section.settings.bar_message_4 != blank -%}
+      <div class="announcement-bar__slide">
+        {%- if section.settings.bar_link_4 != blank -%}<a href="{{ section.settings.bar_link_4 }}">{{ section.settings.bar_message_4 }}</a>{%- else -%}<span>{{ section.settings.bar_message_4 }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if section.settings.bar_message_5 != blank -%}
+      <div class="announcement-bar__slide">
+        {%- if section.settings.bar_link_5 != blank -%}<a href="{{ section.settings.bar_link_5 }}">{{ section.settings.bar_message_5 }}</a>{%- else -%}<span>{{ section.settings.bar_message_5 }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+  <button class="announcement-bar__close" aria-label="Dismiss announcement">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+</div>
+
 <header class="site-header" role="banner">
 
   <!-- ── Row 1: Logo bar ── -->
@@ -199,6 +233,76 @@
       "id": "sticky",
       "label": "Sticky header",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Announcement Bar"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add up to 5 messages that cycle automatically."
+    },
+    {
+      "type": "text",
+      "id": "bar_message_1",
+      "label": "Message 1",
+      "default": "Import duties included in all shipping"
+    },
+    {
+      "type": "url",
+      "id": "bar_link_1",
+      "label": "Message 1 link"
+    },
+    {
+      "type": "text",
+      "id": "bar_message_2",
+      "label": "Message 2",
+      "default": "New Season: Camp Maha Hardy Okinawa"
+    },
+    {
+      "type": "url",
+      "id": "bar_link_2",
+      "label": "Message 2 link"
+    },
+    {
+      "type": "text",
+      "id": "bar_message_3",
+      "label": "Message 3",
+      "default": "New Drop: Spring/Summer 2026"
+    },
+    {
+      "type": "url",
+      "id": "bar_link_3",
+      "label": "Message 3 link"
+    },
+    {
+      "type": "text",
+      "id": "bar_message_4",
+      "label": "Message 4"
+    },
+    {
+      "type": "url",
+      "id": "bar_link_4",
+      "label": "Message 4 link"
+    },
+    {
+      "type": "text",
+      "id": "bar_message_5",
+      "label": "Message 5"
+    },
+    {
+      "type": "url",
+      "id": "bar_link_5",
+      "label": "Message 5 link"
+    },
+    {
+      "type": "range",
+      "id": "bar_interval",
+      "label": "Cycle speed (seconds)",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4
     }
   ]
 }
