@@ -1,53 +1,47 @@
-<div class="section">
+<div class="journal-page">
   <div class="container">
 
-    <div style="margin-bottom:2.5rem">
-      <p class="section-subtitle">{{ blog.title }}</p>
-      <h1 class="section-title">Latest Articles</h1>
-      <span class="section-divider"></span>
+    <div class="journal-header">
+      <h1 class="journal-header__title">{{ blog.title | upcase }}</h1>
     </div>
 
-    {%- paginate blog.articles by 9 -%}
-      <div class="grid grid--3">
+    {%- paginate blog.articles by 12 -%}
+      <div class="journal-grid">
         {%- for article in blog.articles -%}
-          <article class="article-card">
-            {%- if article.image -%}
-              <a href="{{ article.url }}" class="article-card__image">
+          <article class="journal-card">
+            <a href="{{ article.url }}" class="journal-card__media" tabindex="-1" aria-hidden="true">
+              {%- if article.image -%}
                 <img
-                  src="{{ article.image | image_url: width: 640 }}"
+                  src="{{ article.image | image_url: width: 900 }}"
                   alt="{{ article.image.alt | default: article.title | escape }}"
-                  width="640"
-                  height="360"
-                  loading="lazy">
-              </a>
-            {%- endif -%}
-            <div class="article-card__body">
-              {%- if article.tags.size > 0 -%}
-                <p class="article-card__tag">{{ article.tags.first }}</p>
+                  width="900"
+                  loading="{% if forloop.index <= 4 %}eager{% else %}lazy{% endif %}">
+              {%- else -%}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg journal-card__placeholder' }}
               {%- endif -%}
-              <h2 class="article-card__title">
+            </a>
+            <div class="journal-card__info">
+              {%- if article.tags.size > 0 -%}
+                <p class="journal-card__tag">{{ article.tags.first | upcase }}</p>
+              {%- endif -%}
+              <h2 class="journal-card__title">
                 <a href="{{ article.url }}">{{ article.title }}</a>
               </h2>
-              {%- if article.excerpt != blank -%}
-                <p class="article-card__excerpt">{{ article.excerpt | strip_html | truncate: 120 }}</p>
-              {%- endif -%}
-              <div style="margin-top:1rem">
-                <a href="{{ article.url }}" class="btn btn--outline btn--sm">{{ 'blogs.article.read_more' | t }}</a>
-              </div>
+              <p class="journal-card__date">{{ article.published_at | date: '%d.%m.%Y' }}</p>
             </div>
           </article>
         {%- else -%}
-          <p class="text-muted" style="grid-column:1/-1">No articles yet.</p>
+          <p style="color:var(--color-text-muted);padding:3rem 0;">No journal entries yet.</p>
         {%- endfor -%}
       </div>
 
       {%- if paginate.pages > 1 -%}
-        <div style="display:flex;justify-content:center;gap:0.5rem;margin-top:3rem">
+        <div class="collection-pagination">
           {%- if paginate.previous -%}
-            <a href="{{ paginate.previous.url }}" class="btn btn--ghost btn--sm">← Previous</a>
+            <a href="{{ paginate.previous.url }}" class="btn btn--ghost btn--sm">{{ 'general.pagination.previous' | t }}</a>
           {%- endif -%}
           {%- if paginate.next -%}
-            <a href="{{ paginate.next.url }}" class="btn btn--ghost btn--sm">Next →</a>
+            <a href="{{ paginate.next.url }}" class="btn btn--ghost btn--sm">{{ 'general.pagination.next' | t }}</a>
           {%- endif -%}
         </div>
       {%- endif -%}
