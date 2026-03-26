@@ -2200,47 +2200,96 @@ h4 { font-size: 0.938rem; font-weight: 700; }
 .product-slideshow__btn--next { right: 1rem; }
 
 /* --------------------------------------------------------------------------
-   16. Collection Page
+   16. Collection Page — Maharishi-style
    -------------------------------------------------------------------------- */
-.collection-header {
-  background: linear-gradient(180deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
-  padding: 3rem 0 2rem;
+.collection-toolbar {
   border-bottom: 1px solid var(--color-border);
 }
-
-.collection-header__title {
-  margin-bottom: 0.5rem;
-}
-.collection-header__count {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  letter-spacing: 0.06em;
-}
-
-.collection-toolbar {
+.collection-toolbar__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--color-border);
-  margin-bottom: 2rem;
-  gap: 1rem;
-  flex-wrap: wrap;
+  height: 44px;
 }
-
-.collection-sort select {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
+.collection-toolbar__title {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   color: var(--color-text-primary);
-  padding: 0.5rem 1rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
+}
+.collection-toolbar__right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.collection-toolbar__count {
+  font-size: 0.625rem;
+  font-weight: 700;
   letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+.collection-sort__select {
+  background: none;
+  border: none;
+  color: var(--color-text-primary);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   outline: none;
   cursor: pointer;
+  padding: 0;
+  font-family: var(--font-body);
 }
-.collection-sort select:focus { border-color: var(--color-accent); }
+.collection-sort__select:focus { opacity: 0.6; }
+
+.collection-grid-container { padding-bottom: 4rem; }
+
+.active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.active-filter-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  padding: 0.2rem 0.5rem;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+.active-filter-tag:hover { border-color: var(--color-text-primary); color: var(--color-text-primary); }
+.active-filter-clear {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  align-self: center;
+  transition: color var(--transition-fast);
+}
+.active-filter-clear:hover { color: var(--color-text-primary); }
+
+.collection-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 0;
+  color: var(--color-text-muted);
+}
+
+.collection-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-top: 3rem;
+}
 
 /* --------------------------------------------------------------------------
    17. Page (About, Contact, etc.)
