@@ -334,12 +334,6 @@ h4 { font-size: 0.938rem; font-weight: 700; }
 .site-header:hover {
   background-color: #fff;
 }
-.site-header:hover .header-logo-bar {
-  border-bottom-color: var(--color-border);
-}
-.site-header:hover .header-nav-bar {
-  border-bottom-color: var(--color-border);
-}
 
 /* Transparent state: white text/icons */
 .site-header:not(:hover) .site-logo,
@@ -360,8 +354,7 @@ h4 { font-size: 0.938rem; font-weight: 700; }
 
 /* ── Row 1: Logo bar ── */
 .header-logo-bar {
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s linear;
+  border-bottom: none;
 }
 .header-logo-bar__inner {
   display: grid;
@@ -411,7 +404,7 @@ h4 { font-size: 0.938rem; font-weight: 700; }
 .header-nav-bar {
   display: none;
   position: relative;
-  border-bottom: 1px solid transparent;
+  border-bottom: none;
   transition: border-color 0.2s linear;
 }
 @media (min-width: 900px) {
@@ -428,7 +421,7 @@ h4 { font-size: 0.938rem; font-weight: 700; }
 .site-nav__link {
   display: block;
   padding: 0 0.75rem;
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1464,7 +1457,7 @@ h4 { font-size: 0.938rem; font-weight: 700; }
   position: relative;
   aspect-ratio: 3 / 4;
   overflow: hidden;
-  background-color: var(--color-bg-secondary);
+  background-color: #F2F2F0;
 }
 .product-card__media img {
   width: 100%;
@@ -1512,26 +1505,31 @@ h4 { font-size: 0.938rem; font-weight: 700; }
 }
 
 .product-card__info {
-  padding: 0.5rem 0 0.75rem;
+  padding: 0.6rem 0 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "title price" "meta meta";
+  align-items: start;
+  gap: 0 0.5rem;
 }
 
 .product-card__collection {
-  font-size: 0.5rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  grid-area: meta;
+  font-size: 0.625rem;
+  letter-spacing: 0.04em;
   color: var(--color-text-muted);
-  margin-bottom: 0.2rem;
-  font-weight: 700;
+  margin-top: 0.2rem;
+  font-weight: 400;
 }
 
 .product-card__title {
-  font-size: 0.625rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  grid-area: title;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--color-text-primary);
-  margin-bottom: 0.3rem;
-  line-height: 0.9rem;
+  line-height: 1rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -1539,10 +1537,12 @@ h4 { font-size: 0.938rem; font-weight: 700; }
 }
 
 .product-card__price {
-  font-size: 0.625rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  grid-area: price;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   color: var(--color-text-primary);
+  white-space: nowrap;
 }
 .sale { color: var(--color-accent-sale); }
 .compare-at {

@@ -45,11 +45,10 @@
       <div class="product-card__badges">
         {%- if product.available == false -%}
           <span class="badge badge--sold-out">Sold Out</span>
+        {%- elsif product.tags contains 'new' or product.tags contains 'new-arrival' -%}
+          <span class="badge badge--new">New Arrival</span>
         {%- elsif product.compare_at_price > product.price -%}
           <span class="badge badge--sale">Sale</span>
-        {%- endif -%}
-        {%- if product.tags contains 'new' -%}
-          <span class="badge badge--new">New</span>
         {%- endif -%}
       </div>
 
@@ -67,12 +66,6 @@
     </a>
 
     <div class="product-card__info">
-      {%- if show_vendor and product.vendor != blank -%}
-        <p class="product-card__collection">{{ product.vendor }}</p>
-      {%- elsif product.type != blank -%}
-        <p class="product-card__collection">{{ product.type }}</p>
-      {%- endif -%}
-
       <h3 class="product-card__title">
         <a href="{{ product.url }}">{{ product.title }}</a>
       </h3>
@@ -80,6 +73,13 @@
       <div class="product-card__price">
         {% render 'price', product: product %}
       </div>
+
+      {%- assign colour_option = product.options_by_name['Color'] | default: product.options_by_name['Colour'] -%}
+      {%- if colour_option and colour_option.values.size > 1 -%}
+        <p class="product-card__collection">{{ colour_option.values.size }} Colours</p>
+      {%- elsif product.variants.size > 1 -%}
+        <p class="product-card__collection">{{ product.variants.size }} Options</p>
+      {%- endif -%}
     </div>
   </article>
 {%- endif -%}
