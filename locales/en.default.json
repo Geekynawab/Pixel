@@ -35,8 +35,8 @@
   },
   "cart": {
     "general": {
-      "title": "Your Arsenal",
-      "empty": "Your arsenal is empty",
+      "title": "Cart",
+      "empty": "Your cart is empty",
       "note": "Order notes",
       "checkout": "Checkout",
       "subtotal": "Subtotal",
