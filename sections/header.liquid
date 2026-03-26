@@ -114,23 +114,74 @@
     <!-- Nav dropdown panels -->
     {%- for link in linklists[section.settings.menu].links -%}
       {%- if link.links != blank -%}
-        <div class="nav-panel" id="nav-panel-{{ forloop.index }}" aria-hidden="true" role="region">
-          <div class="container">
-            <div class="nav-panel__inner">
-              <!-- Featured / "Shop All" column -->
-              <div class="nav-panel__featured">
-                <a href="{{ link.url }}" class="nav-panel__featured-link">{{ link.title }}</a>
-              </div>
-              <div class="nav-panel__divider" aria-hidden="true"></div>
-              <!-- Sub-links in auto-columns -->
-              <div class="nav-panel__links">
-                {%- for child in link.links -%}
-                  <a href="{{ child.url }}" class="nav-panel__link">{{ child.title }}</a>
-                {%- endfor -%}
+        {%- assign panel_block = nil -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'mega_menu_image' and block.settings.nav_title == link.title -%}
+            {%- assign panel_block = block -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if panel_block != nil -%}
+          <!-- Image panel layout -->
+          <div class="nav-panel nav-panel--images" id="nav-panel-{{ forloop.index }}" aria-hidden="true" role="region">
+            <div class="container">
+              <div class="nav-panel__inner">
+                <div class="nav-panel__links nav-panel__links--col">
+                  <a href="{{ link.url }}" class="nav-panel__link nav-panel__link--heading">View All</a>
+                  {%- for child in link.links -%}
+                    <a href="{{ child.url }}" class="nav-panel__link">{{ child.title }}</a>
+                  {%- endfor -%}
+                </div>
+                <div class="nav-panel__img-grid">
+                  {%- if panel_block.settings.image_1 != blank -%}
+                    <a href="{{ panel_block.settings.link_1 | default: link.url }}" class="nav-panel__img-item">
+                      <img src="{{ panel_block.settings.image_1 | image_url: width: 600 }}" alt="{{ panel_block.settings.label_1 | escape }}" loading="lazy" width="600">
+                      {%- if panel_block.settings.label_1 != blank -%}
+                        <p class="nav-panel__img-label">{{ panel_block.settings.label_1 | upcase }}</p>
+                        <p class="nav-panel__img-sub">View All</p>
+                      {%- endif -%}
+                    </a>
+                  {%- endif -%}
+                  {%- if panel_block.settings.image_2 != blank -%}
+                    <a href="{{ panel_block.settings.link_2 | default: link.url }}" class="nav-panel__img-item">
+                      <img src="{{ panel_block.settings.image_2 | image_url: width: 600 }}" alt="{{ panel_block.settings.label_2 | escape }}" loading="lazy" width="600">
+                      {%- if panel_block.settings.label_2 != blank -%}
+                        <p class="nav-panel__img-label">{{ panel_block.settings.label_2 | upcase }}</p>
+                        <p class="nav-panel__img-sub">View All</p>
+                      {%- endif -%}
+                    </a>
+                  {%- endif -%}
+                  {%- if panel_block.settings.image_3 != blank -%}
+                    <a href="{{ panel_block.settings.link_3 | default: link.url }}" class="nav-panel__img-item">
+                      <img src="{{ panel_block.settings.image_3 | image_url: width: 600 }}" alt="{{ panel_block.settings.label_3 | escape }}" loading="lazy" width="600">
+                      {%- if panel_block.settings.label_3 != blank -%}
+                        <p class="nav-panel__img-label">{{ panel_block.settings.label_3 | upcase }}</p>
+                        <p class="nav-panel__img-sub">View All</p>
+                      {%- endif -%}
+                    </a>
+                  {%- endif -%}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        {%- else -%}
+          <!-- Text-only panel layout -->
+          <div class="nav-panel" id="nav-panel-{{ forloop.index }}" aria-hidden="true" role="region">
+            <div class="container">
+              <div class="nav-panel__inner">
+                <div class="nav-panel__featured">
+                  <a href="{{ link.url }}" class="nav-panel__featured-link">{{ link.title }}</a>
+                </div>
+                <div class="nav-panel__divider" aria-hidden="true"></div>
+                <div class="nav-panel__links">
+                  {%- for child in link.links -%}
+                    <a href="{{ child.url }}" class="nav-panel__link">{{ child.title }}</a>
+                  {%- endfor -%}
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
       {%- endif -%}
     {%- endfor -%}
   </div>
@@ -300,6 +351,68 @@
       "max": 10,
       "step": 1,
       "default": 4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "mega_menu_image",
+      "name": "Mega menu images",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Enter the nav item title exactly as it appears in your menu (e.g. Accessories)."
+        },
+        {
+          "type": "text",
+          "id": "nav_title",
+          "label": "Nav item title"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Image 1"
+        },
+        {
+          "type": "text",
+          "id": "label_1",
+          "label": "Image 1 label"
+        },
+        {
+          "type": "url",
+          "id": "link_1",
+          "label": "Image 1 link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image 2"
+        },
+        {
+          "type": "text",
+          "id": "label_2",
+          "label": "Image 2 label"
+        },
+        {
+          "type": "url",
+          "id": "link_2",
+          "label": "Image 2 link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Image 3"
+        },
+        {
+          "type": "text",
+          "id": "label_3",
+          "label": "Image 3 label"
+        },
+        {
+          "type": "url",
+          "id": "link_3",
+          "label": "Image 3 link"
+        }
+      ]
     }
   ]
 }
