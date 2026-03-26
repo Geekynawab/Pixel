@@ -341,21 +341,18 @@ h4 { font-size: 0.938rem; font-weight: 700; }
   border-bottom-color: var(--color-border);
 }
 
-/* Text/icon color driven by JS --header-text-color variable */
-.site-header .site-logo,
-.site-header .site-logo__text,
-.site-header .site-nav__link,
-.site-header .header-icon {
-  color: var(--header-text-color, #fff);
-  transition: color 0.1s linear;
+/* Transparent state: white text/icons */
+.site-header:not(:hover) .site-logo,
+.site-header:not(:hover) .site-logo__text,
+.site-header:not(:hover) .site-nav__link,
+.site-header:not(:hover) .header-icon {
+  color: #fff;
 }
-.site-header .header-logo-bar {
-  border-bottom-color: var(--header-border-color, rgba(255,255,255,0.15));
-  transition: border-color 0.1s linear;
+.site-header:not(:hover) .header-logo-bar {
+  border-bottom-color: rgba(255,255,255,0.15);
 }
-.site-header .header-nav-bar {
-  border-bottom-color: var(--header-border-color, rgba(255,255,255,0.15));
-  transition: border-color 0.1s linear;
+.site-header:not(:hover) .header-nav-bar {
+  border-bottom-color: rgba(255,255,255,0.15);
 }
 
 /* Push page content below fixed header on non-homepage pages */

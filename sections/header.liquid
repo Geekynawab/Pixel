@@ -1,35 +1,35 @@
-<!-- ── Announcement Bar ── -->
-<div class="announcement-bar" id="announcement-bar" data-interval="{{ section.settings.bar_interval }}" aria-live="polite">
-  <div class="announcement-bar__track">
-    {%- if section.settings.bar_message_1 != blank -%}
-      <div class="announcement-bar__slide is-active">
-        {%- if section.settings.bar_link_1 != blank -%}<a href="{{ section.settings.bar_link_1 }}">{{ section.settings.bar_message_1 }}</a>{%- else -%}<span>{{ section.settings.bar_message_1 }}</span>{%- endif -%}
-      </div>
-    {%- endif -%}
-    {%- if section.settings.bar_message_2 != blank -%}
-      <div class="announcement-bar__slide">
-        {%- if section.settings.bar_link_2 != blank -%}<a href="{{ section.settings.bar_link_2 }}">{{ section.settings.bar_message_2 }}</a>{%- else -%}<span>{{ section.settings.bar_message_2 }}</span>{%- endif -%}
-      </div>
-    {%- endif -%}
-    {%- if section.settings.bar_message_3 != blank -%}
-      <div class="announcement-bar__slide">
-        {%- if section.settings.bar_link_3 != blank -%}<a href="{{ section.settings.bar_link_3 }}">{{ section.settings.bar_message_3 }}</a>{%- else -%}<span>{{ section.settings.bar_message_3 }}</span>{%- endif -%}
-      </div>
-    {%- endif -%}
-    {%- if section.settings.bar_message_4 != blank -%}
-      <div class="announcement-bar__slide">
-        {%- if section.settings.bar_link_4 != blank -%}<a href="{{ section.settings.bar_link_4 }}">{{ section.settings.bar_message_4 }}</a>{%- else -%}<span>{{ section.settings.bar_message_4 }}</span>{%- endif -%}
-      </div>
-    {%- endif -%}
-    {%- if section.settings.bar_message_5 != blank -%}
-      <div class="announcement-bar__slide">
-        {%- if section.settings.bar_link_5 != blank -%}<a href="{{ section.settings.bar_link_5 }}">{{ section.settings.bar_message_5 }}</a>{%- else -%}<span>{{ section.settings.bar_message_5 }}</span>{%- endif -%}
-      </div>
-    {%- endif -%}
-  </div>
-</div>
-
 <header class="site-header" role="banner">
+
+  <!-- ── Announcement Bar ── -->
+  <div class="announcement-bar" id="announcement-bar" data-interval="{{ section.settings.bar_interval }}" aria-live="polite">
+    <div class="announcement-bar__track">
+      {%- if section.settings.bar_message_1 != blank -%}
+        <div class="announcement-bar__slide is-active">
+          {%- if section.settings.bar_link_1 != blank -%}<a href="{{ section.settings.bar_link_1 }}">{{ section.settings.bar_message_1 }}</a>{%- else -%}<span>{{ section.settings.bar_message_1 }}</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.bar_message_2 != blank -%}
+        <div class="announcement-bar__slide">
+          {%- if section.settings.bar_link_2 != blank -%}<a href="{{ section.settings.bar_link_2 }}">{{ section.settings.bar_message_2 }}</a>{%- else -%}<span>{{ section.settings.bar_message_2 }}</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.bar_message_3 != blank -%}
+        <div class="announcement-bar__slide">
+          {%- if section.settings.bar_link_3 != blank -%}<a href="{{ section.settings.bar_link_3 }}">{{ section.settings.bar_message_3 }}</a>{%- else -%}<span>{{ section.settings.bar_message_3 }}</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.bar_message_4 != blank -%}
+        <div class="announcement-bar__slide">
+          {%- if section.settings.bar_link_4 != blank -%}<a href="{{ section.settings.bar_link_4 }}">{{ section.settings.bar_message_4 }}</a>{%- else -%}<span>{{ section.settings.bar_message_4 }}</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.bar_message_5 != blank -%}
+        <div class="announcement-bar__slide">
+          {%- if section.settings.bar_link_5 != blank -%}<a href="{{ section.settings.bar_link_5 }}">{{ section.settings.bar_message_5 }}</a>{%- else -%}<span>{{ section.settings.bar_message_5 }}</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
 
   <!-- ── Row 1: Logo bar ── -->
   <div class="header-logo-bar">

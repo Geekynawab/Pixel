@@ -1002,35 +1002,6 @@
      -------------------------------------------------------------------------- */
   document.addEventListener('DOMContentLoaded', function () {
 
-    // Header: fade from transparent to white on scroll
-    (function () {
-      var header = document.querySelector('.site-header');
-      if (!header) return;
-      var threshold = 200;
-      function updateHeader() {
-        if (header.matches(':hover')) return;
-        var ratio = Math.min(window.scrollY / threshold, 1);
-        header.style.backgroundColor = 'rgba(255,255,255,' + ratio + ')';
-        // Interpolate text/icon color: white → black
-        var channel = Math.round(255 * ratio);
-        var textColor = 'rgb(' + channel + ',' + channel + ',' + channel + ')';
-        header.style.setProperty('--header-text-color', textColor);
-        // Border opacity
-        var borderAlpha = ratio;
-        header.style.setProperty('--header-border-color', 'rgba(0,0,0,' + (borderAlpha * 0.12) + ')');
-      }
-      window.addEventListener('scroll', updateHeader, { passive: true });
-      header.addEventListener('mouseenter', function () {
-        header.style.backgroundColor = '#fff';
-        header.style.setProperty('--header-text-color', '#000');
-        header.style.setProperty('--header-border-color', 'rgba(0,0,0,0.12)');
-      });
-      header.addEventListener('mouseleave', function () {
-        updateHeader();
-      });
-      updateHeader();
-    }());
-
     CartDrawer.init();
     AddToCart.init();
     MobileNav.init();
