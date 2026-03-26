@@ -296,15 +296,48 @@ h4 { font-size: 0.938rem; font-weight: 700; }
    7. Header / Navigation — 2-row Maharishi layout
    -------------------------------------------------------------------------- */
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 50;
-  background-color: var(--color-bg-primary);
+  background-color: transparent;
+  transition: background-color 0.2s linear, color 0.2s linear;
 }
+.site-header--scrolled,
+.site-header:hover {
+  background-color: #fff;
+}
+.site-header--scrolled .header-logo-bar,
+.site-header:hover .header-logo-bar {
+  border-bottom-color: var(--color-border);
+}
+.site-header--scrolled .header-nav-bar,
+.site-header:hover .header-nav-bar {
+  border-bottom-color: var(--color-border);
+}
+
+/* Transparent state: white text/icons */
+.site-header:not(.site-header--scrolled):not(:hover) .site-logo,
+.site-header:not(.site-header--scrolled):not(:hover) .site-logo__text,
+.site-header:not(.site-header--scrolled):not(:hover) .site-nav__link,
+.site-header:not(.site-header--scrolled):not(:hover) .header-icon {
+  color: #fff;
+}
+.site-header:not(.site-header--scrolled):not(:hover) .header-logo-bar {
+  border-bottom-color: rgba(255,255,255,0.15);
+}
+.site-header:not(.site-header--scrolled):not(:hover) .header-nav-bar {
+  border-bottom-color: rgba(255,255,255,0.15);
+}
+
+/* Push page content below fixed header on non-homepage pages */
+.global-breadcrumb { padding-top: 90px; }
 
 /* ── Row 1: Logo bar ── */
 .header-logo-bar {
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s linear;
 }
 .header-logo-bar__inner {
   display: grid;
@@ -354,7 +387,8 @@ h4 { font-size: 0.938rem; font-weight: 700; }
 .header-nav-bar {
   display: none;
   position: relative;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s linear;
 }
 @media (min-width: 900px) {
   .header-nav-bar { display: block; }
