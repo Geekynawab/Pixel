@@ -2500,6 +2500,22 @@ h4 { font-size: 0.938rem; font-weight: 700; }
 }
 .article-input:focus { border-color: var(--color-text-primary); }
 
+/* Country selector (rendered by Shopify address.country_selector_tag) */
+#address_country,
+select[name="address[country]"] {
+  width: 100%;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  padding: 0.6rem 0.75rem;
+  font-size: 0.875rem;
+  font-family: var(--font-body);
+  outline: none;
+  appearance: none;
+}
+#address_country:focus,
+select[name="address[country]"]:focus { border-color: var(--color-text-primary); }
+
 @media (max-width: 768px) {
   .article-hero { max-height: 60vw; }
   .article-hero__img { max-height: 60vw; }
