@@ -1001,16 +1001,6 @@
      Boot
      -------------------------------------------------------------------------- */
   document.addEventListener('DOMContentLoaded', function () {
-    // Transparent header: add scrolled class when page is not at top
-    (function () {
-      var header = document.querySelector('.site-header');
-      if (!header) return;
-      function updateHeader() {
-        header.classList.toggle('site-header--scrolled', window.scrollY > 10);
-      }
-      updateHeader();
-      window.addEventListener('scroll', updateHeader, { passive: true });
-    }());
 
     CartDrawer.init();
     AddToCart.init();

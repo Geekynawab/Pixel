@@ -331,30 +331,27 @@ h4 { font-size: 0.938rem; font-weight: 700; }
   background-color: transparent;
   transition: background-color 0.2s linear, color 0.2s linear;
 }
-.site-header--scrolled,
 .site-header:hover {
   background-color: #fff;
 }
-.site-header--scrolled .header-logo-bar,
 .site-header:hover .header-logo-bar {
   border-bottom-color: var(--color-border);
 }
-.site-header--scrolled .header-nav-bar,
 .site-header:hover .header-nav-bar {
   border-bottom-color: var(--color-border);
 }
 
 /* Transparent state: white text/icons */
-.site-header:not(.site-header--scrolled):not(:hover) .site-logo,
-.site-header:not(.site-header--scrolled):not(:hover) .site-logo__text,
-.site-header:not(.site-header--scrolled):not(:hover) .site-nav__link,
-.site-header:not(.site-header--scrolled):not(:hover) .header-icon {
+.site-header:not(:hover) .site-logo,
+.site-header:not(:hover) .site-logo__text,
+.site-header:not(:hover) .site-nav__link,
+.site-header:not(:hover) .header-icon {
   color: #fff;
 }
-.site-header:not(.site-header--scrolled):not(:hover) .header-logo-bar {
+.site-header:not(:hover) .header-logo-bar {
   border-bottom-color: rgba(255,255,255,0.15);
 }
-.site-header:not(.site-header--scrolled):not(:hover) .header-nav-bar {
+.site-header:not(:hover) .header-nav-bar {
   border-bottom-color: rgba(255,255,255,0.15);
 }
 
