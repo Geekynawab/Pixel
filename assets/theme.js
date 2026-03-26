@@ -935,48 +935,53 @@
      Mega Menu (desktop)
      -------------------------------------------------------------------------- */
   var MegaMenu = {
-    btn:   null,
-    item:  null,
-    menu:  null,
-    timer: null,
+    entries: [],
+    timer:   null,
 
     init: function () {
-      this.item = $('#categories-nav-item');
-      this.menu = $('#mega-menu');
-      if (!this.item || !this.menu) return;
-      this.btn = this.item.querySelector('.desktop-nav__btn');
       var self = this;
+      var triggers = document.querySelectorAll('[data-nav-trigger]');
+      triggers.forEach(function (trigger) {
+        var id    = trigger.getAttribute('data-nav-trigger');
+        var panel = document.getElementById('nav-panel-' + id);
+        if (!panel) return;
+        var item  = trigger.parentElement;
+        self.entries.push({ trigger: trigger, panel: panel, item: item });
 
-      on(this.item, 'mouseenter', function () {
-        clearTimeout(self.timer);
-        self.open();
+        on(item, 'mouseenter', function () {
+          clearTimeout(self.timer);
+          self.open(trigger, panel);
+        });
+        on(item, 'mouseleave', function () {
+          self.timer = setTimeout(function () { self.closeAll(); }, 150);
+        });
+        on(panel, 'mouseenter', function () { clearTimeout(self.timer); });
+        on(panel, 'mouseleave', function () {
+          self.timer = setTimeout(function () { self.closeAll(); }, 150);
+        });
       });
-      on(this.item, 'mouseleave', function () {
-        self.timer = setTimeout(function () { self.close(); }, 160);
-      });
-      on(this.menu, 'mouseenter', function () {
-        clearTimeout(self.timer);
-      });
-      on(this.menu, 'mouseleave', function () {
-        self.timer = setTimeout(function () { self.close(); }, 160);
-      });
+
       on(document, 'click', function (e) {
-        if (!self.item.contains(e.target) && !self.menu.contains(e.target)) {
-          self.close();
-        }
+        if (!e.target.closest('#header-nav-bar')) self.closeAll();
+      });
+      on(document, 'keydown', function (e) {
+        if (e.key === 'Escape') self.closeAll();
       });
     },
 
-    open: function () {
-      this.menu.classList.add('open');
-      this.menu.setAttribute('aria-hidden', 'false');
-      if (this.btn) this.btn.classList.add('active');
+    open: function (trigger, panel) {
+      this.closeAll();
+      panel.classList.add('open');
+      panel.setAttribute('aria-hidden', 'false');
+      trigger.setAttribute('aria-expanded', 'true');
     },
 
-    close: function () {
-      this.menu.classList.remove('open');
-      this.menu.setAttribute('aria-hidden', 'true');
-      if (this.btn) this.btn.classList.remove('active');
+    closeAll: function () {
+      this.entries.forEach(function (e) {
+        e.panel.classList.remove('open');
+        e.panel.setAttribute('aria-hidden', 'true');
+        e.trigger.setAttribute('aria-expanded', 'false');
+      });
     }
   };
 

@@ -1,90 +1,115 @@
 <header class="site-header" role="banner">
 
-  <div class="container">
-    <div class="header-inner">
+  <!-- ── Row 1: Logo bar ── -->
+  <div class="header-logo-bar">
+    <div class="container">
+      <div class="header-logo-bar__inner">
 
-      <!-- Mobile only: Hamburger + MENU label -->
-      <div class="header-left">
-        <button class="hamburger" id="hamburger-btn" aria-label="{{ 'accessibility.open_navigation' | t }}" aria-controls="mobile-nav" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-        <span class="header-menu-label">MENU</span>
-      </div>
+        <!-- Left: hamburger (mobile) | search (desktop) -->
+        <div class="header-logo-bar__left">
+          <button class="hamburger header-mobile-only" id="hamburger-btn"
+            aria-label="{{ 'accessibility.open_navigation' | t }}"
+            aria-controls="mobile-nav" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+          <button class="header-icon header-desktop-only" id="search-toggle" aria-label="Search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </button>
+        </div>
 
-      <!-- Logo -->
-      <a href="/" class="site-logo" aria-label="{{ shop.name }} — Home">
-        {%- if section.settings.logo != blank -%}
-          <img
-            src="{{ section.settings.logo | image_url: width: section.settings.logo_width }}"
-            alt="{{ shop.name }}"
-            width="{{ section.settings.logo_width }}"
-            loading="eager">
-        {%- elsif settings.logo != blank -%}
-          <img
-            src="{{ settings.logo | image_url: width: settings.logo_width }}"
-            alt="{{ shop.name }}"
-            width="{{ settings.logo_width }}"
-            loading="eager">
-        {%- else -%}
-          <span class="site-logo__text">{{ shop.name | upcase }}</span>
-        {%- endif -%}
-      </a>
-
-      <!-- Desktop only: Nav -->
-      <nav class="desktop-nav" aria-label="Main navigation">
-        {%- for link in linklists[section.settings.menu].links -%}
-          {%- if link.links != blank -%}
-            <div class="desktop-nav__item" style="position:relative;">
-              <button class="desktop-nav__link desktop-nav__btn" aria-expanded="false" aria-haspopup="true"
-                onclick="var d=this.nextElementSibling;var open=d.style.display==='block';document.querySelectorAll('.desktop-nav__dropdown').forEach(function(x){x.style.display='none';});d.style.display=open?'none':'block';this.setAttribute('aria-expanded',!open);">
-                {{ link.title }}
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <div class="desktop-nav__dropdown" style="display:none;position:absolute;top:100%;left:0;background:var(--color-bg-secondary);border:1px solid var(--color-border);min-width:180px;z-index:100;">
-                {%- for child in link.links -%}
-                  <a href="{{ child.url }}" class="desktop-nav__link" style="display:block;padding:0.6rem 1rem;font-size:0.85rem;">{{ child.title }}</a>
-                {%- endfor -%}
-              </div>
-            </div>
+        <!-- Center: Logo -->
+        <a href="/" class="site-logo" aria-label="{{ shop.name }} — Home">
+          {%- if section.settings.logo != blank -%}
+            <img
+              src="{{ section.settings.logo | image_url: width: section.settings.logo_width }}"
+              alt="{{ shop.name }}"
+              width="{{ section.settings.logo_width }}"
+              loading="eager">
           {%- else -%}
-            <a href="{{ link.url }}" class="desktop-nav__link"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+            <span class="site-logo__text">{{ shop.name | upcase }}</span>
           {%- endif -%}
-        {%- endfor -%}
-      </nav>
+        </a>
 
-      <!-- Right: Action icons -->
-      <div class="header-actions">
-        <button class="header-icon" id="search-toggle" aria-label="Search">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-        </button>
-        <a href="/pages/wishlist" class="header-icon" aria-label="Wishlist">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-          </svg>
-        </a>
-        <a href="/account" class="header-icon" aria-label="Account">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-          </svg>
-        </a>
-        <button class="header-icon" data-cart-open aria-label="{{ 'accessibility.open_cart' | t }}" aria-expanded="false">
-          {% render 'icon-cart' %}
-          <span class="cart-count" aria-live="polite">{{ cart.item_count }}</span>
-        </button>
+        <!-- Right: account, wishlist, cart -->
+        <div class="header-logo-bar__right">
+          <a href="/account" class="header-icon" aria-label="Account">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </a>
+          <a href="/pages/wishlist" class="header-icon" aria-label="Wishlist">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </a>
+          <button class="header-icon" data-cart-open aria-label="{{ 'accessibility.open_cart' | t }}" aria-expanded="false" style="position:relative;">
+            {% render 'icon-cart' %}
+            <span class="cart-count" aria-live="polite">{{ cart.item_count }}</span>
+          </button>
+        </div>
+
       </div>
-
     </div>
   </div>
 
-  <!-- Inline header search (slides over header on search click) -->
+  <!-- ── Row 2: Nav bar (desktop) ── -->
+  <div class="header-nav-bar" id="header-nav-bar">
+    <div class="container">
+      <nav class="site-nav" aria-label="Main navigation">
+        {%- for link in linklists[section.settings.menu].links -%}
+          <div class="site-nav__item{% if link.links != blank %} site-nav__item--has-panel{% endif %}">
+            {%- if link.links != blank -%}
+              <button
+                class="site-nav__link"
+                data-nav-trigger="{{ forloop.index }}"
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-controls="nav-panel-{{ forloop.index }}">
+                {{ link.title }}
+              </button>
+            {%- else -%}
+              <a href="{{ link.url }}" class="site-nav__link"{% if link.active %} aria-current="page"{% endif %}>
+                {{ link.title }}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </nav>
+    </div>
+
+    <!-- Nav dropdown panels -->
+    {%- for link in linklists[section.settings.menu].links -%}
+      {%- if link.links != blank -%}
+        <div class="nav-panel" id="nav-panel-{{ forloop.index }}" aria-hidden="true" role="region">
+          <div class="container">
+            <div class="nav-panel__inner">
+              <!-- Featured / "Shop All" column -->
+              <div class="nav-panel__featured">
+                <a href="{{ link.url }}" class="nav-panel__featured-link">{{ link.title }}</a>
+              </div>
+              <div class="nav-panel__divider" aria-hidden="true"></div>
+              <!-- Sub-links in auto-columns -->
+              <div class="nav-panel__links">
+                {%- for child in link.links -%}
+                  <a href="{{ child.url }}" class="nav-panel__link">{{ child.title }}</a>
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  <!-- ── Inline header search ── -->
   <div class="header-search" id="header-search" aria-hidden="true">
     <div class="container">
       <form action="/search" method="get" class="header-search__form">
         <input type="hidden" name="type" value="product">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
         <input
@@ -96,7 +121,7 @@
           autocomplete="off"
           aria-label="Search products">
         <button type="button" class="header-search__close" id="header-search-close" aria-label="Close search">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
         </button>
@@ -104,42 +129,20 @@
     </div>
   </div>
 
-  <!-- Mega menu (desktop only) -->
-  <div class="mega-menu" id="mega-menu" aria-hidden="true">
-    <div class="container">
-      <div class="mega-menu__grid">
-
-        <div class="mega-menu__col">
-          <p class="mega-menu__heading">Skins</p>
-          <a href="/collections/prime-1" class="mega-menu__link">Prime</a>
-          <a href="/collections/reaver-1" class="mega-menu__link">Reaver</a>
-          <a href="/collections/ion" class="mega-menu__link">Ion</a>
-          <a href="/collections/all" class="mega-menu__link mega-menu__link--all">Shop All Skins →</a>
-        </div>
-
-        <div class="mega-menu__col">
-          <p class="mega-menu__heading">Accessories</p>
-          <a href="/collections/keychains-1" class="mega-menu__link">Keychains</a>
-          <a href="/collections/toys-1" class="mega-menu__link">Toys</a>
-          <a href="/collections/mousepads-1" class="mega-menu__link">Mousepads</a>
-          <a href="/collections/all" class="mega-menu__link mega-menu__link--all">Shop All →</a>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- Nav overlay (closes mobile drawer on outside click) -->
+  <!-- ── Mobile nav ── -->
   <div class="mobile-nav-overlay" id="mobile-nav-overlay" aria-hidden="true"></div>
 
-  <!-- Mobile nav drawer -->
   <nav class="mobile-nav" id="mobile-nav" aria-label="Site navigation">
     {%- for link in linklists[section.settings.menu].links -%}
       <div class="mobile-nav__item">
         {%- if link.links != blank -%}
-          <button class="mobile-nav__link mobile-nav__toggle" data-mobile-toggle="mobile-sub-{{ forloop.index }}" aria-expanded="false">
+          <button class="mobile-nav__link mobile-nav__toggle"
+            data-mobile-toggle="mobile-sub-{{ forloop.index }}"
+            aria-expanded="false">
             {{ link.title }}
-            <span class="toggle-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span>
+            <span class="toggle-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
           </button>
           <div class="mobile-nav__sub" id="mobile-sub-{{ forloop.index }}">
             {%- for child in link.links -%}
@@ -151,6 +154,9 @@
         {%- endif -%}
       </div>
     {%- endfor -%}
+    <div class="mobile-nav__item">
+      <a href="/account" class="mobile-nav__link">Account</a>
+    </div>
   </nav>
 
 </header>
@@ -179,7 +185,7 @@
       "max": 240,
       "step": 5,
       "unit": "px",
-      "default": 140
+      "default": 120
     },
     {
       "type": "checkbox",
