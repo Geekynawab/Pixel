@@ -1595,37 +1595,39 @@ h4 { font-size: 0.938rem; font-weight: 700; }
 }
 
 /* --------------------------------------------------------------------------
-   13. Footer
+   13. Footer — Maharishi dark footer
    -------------------------------------------------------------------------- */
 .site-footer {
-  background-color: var(--color-bg-primary);
-  border-top: 1px solid var(--color-border);
-  padding: 4rem 0 2rem;
+  background-color: #000;
+  color: #fff;
+  padding: 3rem 0 2rem;
 }
 
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 3rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
 }
 
 .footer-brand__logo {
   font-family: var(--font-headline);
-  font-weight: 900;
-  font-size: 1.25rem;
-  letter-spacing: 0.1em;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: #fff;
   margin-bottom: 1rem;
 }
-.footer-brand__logo span { color: var(--color-accent); }
 
 .footer-brand__desc {
-  font-size: 0.85rem;
-  color: var(--color-text-secondary);
+  font-size: 0.813rem;
+  color: rgba(255,255,255,0.5);
   line-height: 1.7;
   margin-bottom: 1.5rem;
-  max-width: 300px;
+  max-width: 280px;
 }
 
 .social-links {
@@ -1637,41 +1639,33 @@ h4 { font-size: 0.938rem; font-weight: 700; }
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-  font-size: 0.9rem;
-  transition: opacity var(--transition-fast);
+  width: 32px;
+  height: 32px;
+  color: rgba(255,255,255,0.55);
+  transition: color var(--transition-fast);
 }
-.social-link:hover {
-  opacity: 0.5;
-}
+.social-link:hover { color: #fff; }
 
 .footer-nav__title {
-  font-size: 0.75rem;
+  font-size: 0.5625rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-text-primary);
+  color: rgba(255,255,255,0.4);
   margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--color-border);
 }
 
 .footer-nav__list a {
   display: block;
-  font-size: 0.82rem;
-  color: var(--color-text-secondary);
-  padding: 0.3rem 0;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.7);
+  padding: 0.25rem 0;
   transition: color var(--transition-fast);
+  letter-spacing: 0.02em;
 }
-.footer-nav__list a:hover { color: var(--color-accent); }
+.footer-nav__list a:hover { color: #fff; }
 
 .footer-bottom {
-  border-top: 1px solid var(--color-border);
-  padding-top: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1680,15 +1674,16 @@ h4 { font-size: 0.938rem; font-weight: 700; }
 }
 
 .footer-bottom__copy {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
+  font-size: 0.625rem;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.06em;
 }
 
 .footer-disclaimer {
-  font-size: 0.72rem;
-  color: var(--color-text-muted);
+  font-size: 0.625rem;
+  color: rgba(255,255,255,0.3);
   text-align: center;
-  max-width: 600px;
+  max-width: 500px;
 }
 
 /* --------------------------------------------------------------------------
