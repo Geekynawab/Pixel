@@ -101,14 +101,15 @@
           {%- if link.links != blank or nav_block != nil -%}{%- assign has_panel = true -%}{%- endif -%}
           <div class="site-nav__item{% if has_panel %} site-nav__item--has-panel{% endif %}">
             {%- if has_panel -%}
-              <button
+              <a href="{{ link.url }}"
                 class="site-nav__link"
                 data-nav-trigger="{{ forloop.index }}"
                 aria-expanded="false"
                 aria-haspopup="true"
-                aria-controls="nav-panel-{{ forloop.index }}">
+                aria-controls="nav-panel-{{ forloop.index }}"
+                {% if link.active %}aria-current="page"{% endif %}>
                 {{ link.title }}
-              </button>
+              </a>
             {%- else -%}
               <a href="{{ link.url }}" class="site-nav__link"{% if link.active %} aria-current="page"{% endif %}>
                 {{ link.title }}
