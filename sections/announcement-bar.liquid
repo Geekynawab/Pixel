@@ -1,26 +1,37 @@
-{%- assign has_messages = false -%}
-{%- for i in (1..5) -%}
-  {%- assign key = 'message_' | append: i -%}
-  {%- if section.settings[key] != blank -%}{%- assign has_messages = true -%}{%- endif -%}
-{%- endfor -%}
-
-{%- if has_messages -%}
-<div class="announcement-bar" id="announcement-bar" data-interval="{{ section.settings.interval }}" aria-live="polite" aria-atomic="true">
+<div class="announcement-bar" id="announcement-bar" data-interval="{{ section.settings.interval }}" aria-live="polite">
 
   <div class="announcement-bar__track">
-    {%- for i in (1..5) -%}
-      {%- assign msg_key = 'message_' | append: i -%}
-      {%- assign link_key = 'link_' | append: i -%}
-      {%- if section.settings[msg_key] != blank -%}
-        <div class="announcement-bar__slide{% if forloop.first %} is-active{% endif %}">
-          {%- if section.settings[link_key] != blank -%}
-            <a href="{{ section.settings[link_key] }}">{{ section.settings[msg_key] }}</a>
-          {%- else -%}
-            <span>{{ section.settings[msg_key] }}</span>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
-    {%- endfor -%}
+
+    {%- if section.settings.message_1 != blank -%}
+      <div class="announcement-bar__slide is-active">
+        {%- if section.settings.link_1 != blank -%}<a href="{{ section.settings.link_1 }}">{{ section.settings.message_1 }}</a>{%- else -%}<span>{{ section.settings.message_1 }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.message_2 != blank -%}
+      <div class="announcement-bar__slide">
+        {%- if section.settings.link_2 != blank -%}<a href="{{ section.settings.link_2 }}">{{ section.settings.message_2 }}</a>{%- else -%}<span>{{ section.settings.message_2 }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.message_3 != blank -%}
+      <div class="announcement-bar__slide">
+        {%- if section.settings.link_3 != blank -%}<a href="{{ section.settings.link_3 }}">{{ section.settings.message_3 }}</a>{%- else -%}<span>{{ section.settings.message_3 }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.message_4 != blank -%}
+      <div class="announcement-bar__slide">
+        {%- if section.settings.link_4 != blank -%}<a href="{{ section.settings.link_4 }}">{{ section.settings.message_4 }}</a>{%- else -%}<span>{{ section.settings.message_4 }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.message_5 != blank -%}
+      <div class="announcement-bar__slide">
+        {%- if section.settings.link_5 != blank -%}<a href="{{ section.settings.link_5 }}">{{ section.settings.message_5 }}</a>{%- else -%}<span>{{ section.settings.message_5 }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+
   </div>
 
   <button class="announcement-bar__close" aria-label="Dismiss announcement">
@@ -30,7 +41,6 @@
   </button>
 
 </div>
-{%- endif -%}
 
 {% schema %}
 {
@@ -39,7 +49,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Add up to 5 messages. They cycle automatically every 4 seconds."
+      "content": "Add up to 5 messages. They cycle automatically."
     },
     {
       "type": "text",
