@@ -2,10 +2,19 @@
   "type": "header",
   "name": "Header group",
   "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "message_1": "Import duties included in all shipping",
+        "message_2": "New Season: Camp Maha Hardy Okinawa",
+        "message_3": "New Drop: Spring\/Summer 2026",
+        "interval": 4
+      }
+    },
     "header": {
       "type": "header",
       "settings": {}
     }
   },
-  "order": ["header"]
+  "order": ["announcement-bar", "header"]
 }
