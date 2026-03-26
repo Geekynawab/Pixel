@@ -91,8 +91,16 @@
     <div class="container">
       <nav class="site-nav" aria-label="Main navigation">
         {%- for link in linklists[section.settings.menu].links -%}
-          <div class="site-nav__item{% if link.links != blank %} site-nav__item--has-panel{% endif %}">
-            {%- if link.links != blank -%}
+          {%- assign nav_block = nil -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'mega_menu_image' and block.settings.nav_title == link.title -%}
+              {%- assign nav_block = block -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- assign has_panel = false -%}
+          {%- if link.links != blank or nav_block != nil -%}{%- assign has_panel = true -%}{%- endif -%}
+          <div class="site-nav__item{% if has_panel %} site-nav__item--has-panel{% endif %}">
+            {%- if has_panel -%}
               <button
                 class="site-nav__link"
                 data-nav-trigger="{{ forloop.index }}"
@@ -113,13 +121,13 @@
 
     <!-- Nav dropdown panels -->
     {%- for link in linklists[section.settings.menu].links -%}
-      {%- if link.links != blank -%}
-        {%- assign panel_block = nil -%}
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'mega_menu_image' and block.settings.nav_title == link.title -%}
-            {%- assign panel_block = block -%}
-          {%- endif -%}
-        {%- endfor -%}
+      {%- assign panel_block = nil -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'mega_menu_image' and block.settings.nav_title == link.title -%}
+          {%- assign panel_block = block -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if link.links != blank or panel_block != nil -%}
 
         {%- if panel_block != nil -%}
           <!-- Image panel layout -->
