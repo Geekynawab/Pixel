@@ -99,6 +99,9 @@
           {%- endfor -%}
           {%- assign has_panel = false -%}
           {%- if link.links != blank or nav_block != nil -%}{%- assign has_panel = true -%}{%- endif -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'mega_menu_text' and block.settings.nav_title == link.title -%}{%- assign has_panel = true -%}{%- endif -%}
+          {%- endfor -%}
           <div class="site-nav__item{% if has_panel %} site-nav__item--has-panel{% endif %}">
             {%- if has_panel -%}
               <a href="{{ link.url }}"
@@ -123,12 +126,16 @@
     <!-- Nav dropdown panels -->
     {%- for link in linklists[section.settings.menu].links -%}
       {%- assign panel_block = nil -%}
+      {%- assign text_block = nil -%}
       {%- for block in section.blocks -%}
         {%- if block.type == 'mega_menu_image' and block.settings.nav_title == link.title -%}
           {%- assign panel_block = block -%}
         {%- endif -%}
+        {%- if block.type == 'mega_menu_text' and block.settings.nav_title == link.title -%}
+          {%- assign text_block = block -%}
+        {%- endif -%}
       {%- endfor -%}
-      {%- if link.links != blank or panel_block != nil -%}
+      {%- if link.links != blank or panel_block != nil or text_block != nil -%}
 
         {%- if panel_block != nil -%}
           <!-- Image panel layout -->
@@ -179,7 +186,16 @@
             <div class="container">
               <div class="nav-panel__inner">
                 <div class="nav-panel__featured">
-                  <a href="{{ link.url }}" class="nav-panel__featured-link">{{ link.title }}</a>
+                  <a href="{{ link.url }}" class="nav-panel__featured-link">Shop All</a>
+                  {%- if text_block != nil -%}
+                    {%- for i in (1..6) -%}
+                      {%- assign lbl = 'featured_label_' | append: i -%}
+                      {%- assign url = 'featured_url_' | append: i -%}
+                      {%- if text_block.settings[lbl] != blank -%}
+                        <a href="{{ text_block.settings[url] | default: link.url }}" class="nav-panel__featured-link">{{ text_block.settings[lbl] }}</a>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endif -%}
                 </div>
                 <div class="nav-panel__divider" aria-hidden="true"></div>
                 <div class="nav-panel__links">
@@ -363,6 +379,33 @@
     }
   ],
   "blocks": [
+    {
+      "type": "mega_menu_text",
+      "name": "Mega menu — featured links",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Adds a featured column to a nav item's dropdown. Enter the nav title exactly as it appears in your menu."
+        },
+        {
+          "type": "text",
+          "id": "nav_title",
+          "label": "Nav item title"
+        },
+        { "type": "text", "id": "featured_label_1", "label": "Link 1 label" },
+        { "type": "url",  "id": "featured_url_1",   "label": "Link 1 URL" },
+        { "type": "text", "id": "featured_label_2", "label": "Link 2 label" },
+        { "type": "url",  "id": "featured_url_2",   "label": "Link 2 URL" },
+        { "type": "text", "id": "featured_label_3", "label": "Link 3 label" },
+        { "type": "url",  "id": "featured_url_3",   "label": "Link 3 URL" },
+        { "type": "text", "id": "featured_label_4", "label": "Link 4 label" },
+        { "type": "url",  "id": "featured_url_4",   "label": "Link 4 URL" },
+        { "type": "text", "id": "featured_label_5", "label": "Link 5 label" },
+        { "type": "url",  "id": "featured_url_5",   "label": "Link 5 URL" },
+        { "type": "text", "id": "featured_label_6", "label": "Link 6 label" },
+        { "type": "url",  "id": "featured_url_6",   "label": "Link 6 URL" }
+      ]
+    },
     {
       "type": "mega_menu_image",
       "name": "Mega menu images",
